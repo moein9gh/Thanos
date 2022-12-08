@@ -1,6 +1,6 @@
 import express from "express";
 
-export function newServer() :express.Express{
-    return express()
+export function newServer(routes:express.Router) :express.Express{
+    return express().use(routes)
 }
 

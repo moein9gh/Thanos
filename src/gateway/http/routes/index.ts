@@ -1,5 +1,11 @@
 import express from "express"
+import {IUserController} from "@ports";
 
-export function registerRoutes(userHandlers: any, router: express.Router) {
-    return {}
+export class UserRoutes{
+    static RegisterRoutes(userHandlers: IUserController, router: express.Router) : express.Router {
+
+        router.get("/",userHandlers.create)
+
+        return router
+    }
 }

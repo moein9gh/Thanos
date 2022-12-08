@@ -22,7 +22,10 @@
     "_moduleAliases": {
         "@store": "dist/store/index.js",
         "@gateway": "dist/gateway/index.js",
-        "@interactor": "dist/interactor/index.js"
+        "@interactor": "dist/interactor/index.js",
+        "@config": "dist/config/index.js",
+        "@ports": "dist/ports/index.js",
+        "@repository": "dist/repository/index.js"
     },
     "dependencies": {
         "@types/cors": "^2.8.13",

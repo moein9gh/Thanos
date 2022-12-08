@@ -1,23 +1,29 @@
- import { MongoClient , Db} from 'mongodb'
-// Connection URL
-const url = 'mongodb://root:example@localhost:27017';
-const client = new MongoClient(url);
+import {MongoClient,Db} from 'mongodb'
+import {DbConfig} from "@config"
 
-// Database Name
-const dbName = 'myProject';
+export class Server {
 
-export async function setup():Promise<Db> {
-    try{
+    constructor(readonly host: string, readonly port: number, readonly username: string, readonly password: string,readonly client:MongoClient,readonly db:Db) {
+    }
 
-        // Use connect method to connect to the server
-        await client.connect();
-        console.log('Connected successfully to server');
+    public static async setup(cfg: DbConfig) {
+        try {
 
-        return client.db(dbName);
+            const url = `mongodb://${cfg.username}:${cfg.password}@${cfg.host}:${cfg.port}`;
+            const client: MongoClient = new MongoClient(url);
 
-    }catch (e) {
-        console.log(e)
-        throw new Error("")
+            await client.connect();
+
+            console.log('Connected successfully to server');
+
+            const db = client.db(cfg.dbName);
+
+            return new Server(cfg.host, cfg.port,cfg.username,cfg.password,client,db)
+
+        } catch (e) {
+            console.log(e)
+            throw new Error("")
+        }
     }
 }
 

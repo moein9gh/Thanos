@@ -1,5 +1,15 @@
 import { MongoClient , Db} from 'mongodb'
+import {IBaseRepository, IUserInteractor} from "@ports"
 
-export function newUserIntractor(db:Db) {
-    return {}
+export class UserInteractor implements IUserInteractor{
+    constructor(readonly userRepository:IBaseRepository) {}
+
+    static Setup(userRepository:IBaseRepository):IUserInteractor{
+        return new UserInteractor(userRepository)
+    }
+
+    create(): any {
+        console.log("create UserInteractor")
+        this.userRepository.create()
+    }
 }
