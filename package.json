@@ -2,27 +2,37 @@
     "name": "clean-ts",
     "version": "1.0.0",
     "description": "",
-    "main": "dist/index.js",
+    "main": "./dist/bin/index.js",
     "scripts": {
         "build": "rimraf ./dist && tsc -p tsconfig-build.json",
-        "build:watch": "npm run build -- --watch",
-        "dev": "nodemon -L --watch ./dist ./dist/index.js",
-        "start:dev": "concurrently -kill-others-on-fail \"npm run build:watch\" \"npm run dev\"",
-        "start": "node dist/index.js"
+        "dev": "nodemon ./dist/bin/index.js",
+        "start": "node dist/bin/index.js",
+        "start:dev": " npm run dev & tsc -p tsconfig-build.json -w"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "devDependencies": {
+        "@types/mongodb": "^4.0.7",
         "concurrently": "^7.6.0",
         "nodemon": "^2.0.20",
         "rimraf": "^3.0.2",
         "typescript": "^4.9.3"
     },
     "_moduleAliases": {
-        "@domain/*": "dist/domain"
+        "@store": "dist/store/index.js",
+        "@gateway": "dist/gateway/index.js",
+        "@interactor": "dist/interactor/index.js"
     },
     "dependencies": {
-        "@types/node": "^18.11.11"
+        "@types/cors": "^2.8.13",
+        "@types/express": "^4.17.14",
+        "@types/helmet": "^4.0.0",
+        "@types/node": "^18.11.11",
+        "cors": "^2.8.5",
+        "express": "^4.18.2",
+        "helmet": "^6.0.1",
+        "module-alias": "^2.2.2",
+        "mongodb": "^4.12.1"
     }
 }
