@@ -15,7 +15,21 @@ import {UserInteractor} from "@interactor";
 async function bootstrap() {
 
     try{
-        const db = await store.Server.setup({password:"example",port:27017,username:"root",host:"localhost",dbName:"myCollection"})
+        console.log("db config",{
+            password:process.env.password || "root",
+            port:Number(process.env.password) || 27017,
+            username:process.env.username || "root",
+            host:process.env.host || "localhost",
+            dbName:process.env.dbName || "test"
+        })
+
+        const db = await store.Server.setup({
+            password:process.env.password || "root",
+            port:Number(process.env.password) || 27017,
+            username:process.env.username || "root",
+            host:process.env.host || "localhost",
+            dbName:process.env.dbName || "test"
+        })
 
         let router = http.newRouter()
 

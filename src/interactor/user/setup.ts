@@ -4,7 +4,7 @@ import {IBaseRepository, IUserInteractor} from "@ports"
 export class UserInteractor implements IUserInteractor{
     constructor(readonly userRepository:IBaseRepository) {}
 
-    static Setup(userRepository:IBaseRepository):IUserInteractor{
+    static Setup(userRepository:IBaseRepository):UserInteractor{
         return new UserInteractor(userRepository)
     }
 

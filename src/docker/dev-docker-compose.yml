@@ -2,7 +2,23 @@
 version: '3.1'
 
 services:
-
+    clean-back:
+        build:
+            context: ../../
+            dockerfile: ./src/docker/Dockerfile
+        container_name: clean-back
+        command: npm run start:dev
+        working_dir: /opt/web
+        image: clean-back
+        restart: always
+        environment:
+            host: mongo
+            port: 27017
+            username: root
+            password: example
+            dbName: myCollection
+        ports:
+            - 3000:3000
     mongo:
         image: mongo
         restart: always

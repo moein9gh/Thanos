@@ -6,7 +6,7 @@ export class UserController{
     constructor(readonly userInteractor:IUserInteractor) {
     }
 
-    static Setup(userInteractor:IUserInteractor) : IUserController{
+    static Setup(userInteractor:IUserInteractor) : UserController{
         return (new UserController(userInteractor))
     }
 
@@ -19,5 +19,9 @@ export class UserController{
         }catch (e) {
             console.log(12,e)
         }
+    }
+
+    sayHi(req:Request,res:Response){
+        res.send("/sayHi")
     }
 }
