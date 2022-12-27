@@ -14,7 +14,7 @@ export class Server {
 
             await client.connect();
 
-            console.log('Connected successfully to server');
+            console.log('Connected successfully to database');
 
             const db = client.db(cfg.dbName);
 

@@ -9,7 +9,6 @@ services:
             dockerfile: ./src/docker/dev.Dockerfile
         container_name: clean-back
         command: npm run start:dev
-#        command: tsc-watch --outDir ./build --onSuccess \ npm install pm2 -g ./build/server.js --name media -o ./logs/log.log -e ./logs/err.log --watch --onFailure "echo failed to compile ts project"
         working_dir: /opt/web
         image: clean-back
         restart: always
@@ -22,9 +21,12 @@ services:
         volumes:
             - ../..:/opt/web
             - /otp/web/node_modules
+            - ..:/opt/web/src
+
         ports:
             - ${HTTP_SERVER_LOCAL_PORT}:${HTTP_SERVER_CONTAINER_PORT}
             - ${WEBSOCKET_SERVER_LOCAL_PORT}:${WEBSOCKET_SERVER_CONTAINER_PORT}
+            - ${GRPC_SERVER_LOCAL_PORT}:${GRPC_SERVER_CONTAINER_PORT}
         depends_on:
             - "mongo"
     mongo:

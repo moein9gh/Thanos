@@ -11,6 +11,8 @@ declare global {
             SERVER_CONTAINER_PORT: number;
             WEBSOCKET_SERVER_LOCAL_PORT: number;
             WEBSOCKET_SERVER_CONTAINER_PORT: number;
+            GRPC_SERVER_LOCAL_PORT: number;
+            GRPC_SERVER_CONTAINER_PORT: number;
         }
     }
 }

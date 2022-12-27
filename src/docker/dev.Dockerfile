@@ -8,4 +8,7 @@ COPY ./package*.json ./
 RUN npm install
 
 COPY . .
+
+RUN cp -r ./src/gateway/grpc/protos ./dist/gateway/grpc
+
 EXPOSE 3000

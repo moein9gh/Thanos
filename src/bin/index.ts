@@ -45,8 +45,10 @@ async function bootstrap() {
 
         gateway.Websocket.NewServer()
 
+        gateway.GrpcServer.NewServer()
+
     }catch (e) {
-        console.log("e")
+        console.log("error",e)
     }
 }
 
