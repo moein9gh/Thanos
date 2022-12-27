@@ -4,6 +4,11 @@
 
 import * as moduleAlias from "module-alias"
 moduleAlias.default()
+import * as dotenv from 'dotenv'
+
+dotenv.config({
+    path:process.cwd()+"/src/env/.env"
+});
 
 import * as store from "@store"
 import * as http from "@gateway"
@@ -15,13 +20,6 @@ import {UserInteractor} from "@interactor";
 async function bootstrap() {
 
     try{
-        console.log("db config",{
-            password:process.env.password || "root",
-            port:Number(process.env.password) || 27017,
-            username:process.env.username || "root",
-            host:process.env.host || "localhost",
-            dbName:process.env.dbName || "test"
-        })
 
         const db = await store.Server.setup({
             password:process.env.password || "root",
@@ -41,8 +39,8 @@ async function bootstrap() {
 
         const routes = http.UserRoutes.RegisterRoutes(handlers,router)
 
-        http.newServer(routes).listen(3000,()=>{
-            console.log("server is runnnig")
+        http.newServer(routes).listen(process.env.SERVER_LOCAL_PORT,()=>{
+            console.log("server is runnnig",process.env.SERVER_LOCAL_PORT)
         })
     }catch (e) {
         console.log("e")
