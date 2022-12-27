@@ -23,7 +23,8 @@ services:
             - ../..:/opt/web
             - /otp/web/node_modules
         ports:
-            - ${SERVER_LOCAL_PORT}:${SERVER_CONTAINER_PORT}
+            - ${HTTP_SERVER_LOCAL_PORT}:${HTTP_SERVER_CONTAINER_PORT}
+            - ${WEBSOCKET_SERVER_LOCAL_PORT}:${WEBSOCKET_SERVER_CONTAINER_PORT}
         depends_on:
             - "mongo"
     mongo:

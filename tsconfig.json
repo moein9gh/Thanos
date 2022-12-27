@@ -32,6 +32,7 @@
         "paths": {
                     "@bin/*":["bin/*"],
                     "@config":["config/index"],
+                    "@types":["types/index"],
                     "@gateway":["gateway/index"],
                     "@interactor":["interactor/index"],
                     "@store":["store/index"],

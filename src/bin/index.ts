@@ -11,7 +11,7 @@ dotenv.config({
 });
 
 import * as store from "@store"
-import * as http from "@gateway"
+import * as gateway from "@gateway"
 import * as repository from "@repository";
 import {UserInteractor} from "@interactor";
 
@@ -29,22 +29,25 @@ async function bootstrap() {
             dbName:process.env.dbName || "test"
         })
 
-        let router = http.newRouter()
+        let router = gateway.newRouter()
 
         const uRepository = repository.UserRepository.Setup(db)
 
         const uInteractor = UserInteractor.Setup(uRepository)
 
-        const handlers = http.UserController.Setup(uInteractor)
+        const handlers = gateway.UserController.Setup(uInteractor)
 
-        const routes = http.UserRoutes.RegisterRoutes(handlers,router)
+        const routes = gateway.UserRoutes.RegisterRoutes(handlers,router)
 
-        http.newServer(routes).listen(process.env.SERVER_LOCAL_PORT,()=>{
-            console.log("server is runnnig",process.env.SERVER_LOCAL_PORT)
+        gateway.HttpServer.NewServer(routes)?.listen(process.env.HTTP_SERVER_LOCAL_PORT,()=>{
+            console.log("server is running",process.env.HTTP_SERVER_LOCAL_PORT)
         })
+
+        gateway.Websocket.NewServer()
+
     }catch (e) {
         console.log("e")
     }
 }
 
-bootstrap()
+bootstrap().then()
