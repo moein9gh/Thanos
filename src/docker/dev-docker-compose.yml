@@ -13,20 +13,22 @@ services:
         restart: always
         environment:
             host: mongo
-            port: 27017
-            username: root
-            password: example
-            dbName: myCollection
+            port: ${MONGO_CONTAINER_PORT}
+            username: ${MONGO_USERNAME}
+            password: ${MONGO_PASSWORD}
+            dbName: ${MONGO_DB}
         ports:
-            - 3000:3000
+            - ${SERVER_LOCAL_PORT}:${SERVER_CONTAINER_PORT}
+        depends_on:
+            - "mongo"
     mongo:
         image: mongo
         restart: always
         environment:
-            MONGO_INITDB_ROOT_USERNAME: root
-            MONGO_INITDB_ROOT_PASSWORD: example
+            MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
         ports:
-            - 27017:27017
+            - ${MONGO_LOCAL_PORT}:${MONGO_CONTAINER_PORT}
 
     mongo-express:
         image: mongo-express
@@ -36,4 +38,6 @@ services:
         environment:
              ME_CONFIG_MONGODB_ADMINUSERNAME: root
              ME_CONFIG_MONGODB_ADMINPASSWORD: example
-             ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+             ME_CONFIG_MONGODB_URL: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongo:${MONGO_CONTAINER_PORT}/
+        depends_on:
+            - "mongo"
