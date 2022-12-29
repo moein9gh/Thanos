@@ -24,7 +24,7 @@ export class GrpcServer{
             getAllNews: (_, callback) => {
                 console.log("received")
                 callback(null, news);
-            },
+            }, 
         });
 
         server.bindAsync(

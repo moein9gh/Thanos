@@ -14,7 +14,7 @@ export class UserController{
         try {
             console.log("create UserController")
             this.userInteractor.create()
-            res.send("hi2")
+            res.send("hi3")
 
         }catch (e) {
             console.log(12,e)

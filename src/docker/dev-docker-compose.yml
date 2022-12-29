@@ -1,7 +1,5 @@
 # Use root/example as user/password credentials
-version: '3.1'
-#CMD tsc-watch --outDir ./build --onSuccess \
-# "npm install pm2 -g ./build/server.js --name media -o ./logs/log.log -e ./logs/err.log --watch" --onFailure "echo failed to compile ts project"
+version: '3'
 services:
     clean-back:
         build:
@@ -14,38 +12,38 @@ services:
         restart: always
         environment:
             host: mongo
-            port: ${MONGO_CONTAINER_PORT}
-            username: ${MONGO_USERNAME}
-            password: ${MONGO_PASSWORD}
-            dbName: ${MONGO_DB}
+            port: ${MONGO_CONTAINER_PORT-27017}
+            username: ${MONGO_USERNAME:-root}
+            password: ${MONGO_PASSWORD:-example}
+            dbName: ${MONGO_DB:-myCollection}
+            HTTP_SERVER_LOCAL_PORT: ${HTTP_SERVER_LOCAL_PORT:-3000}
         volumes:
-            - ../..:/opt/web
-            - /otp/web/node_modules
-            - ..:/opt/web/src
-
+          - ../..:/opt/web
+          - /otp/web/node_modules
+          - ..:/opt/web/src
         ports:
-            - ${HTTP_SERVER_LOCAL_PORT}:${HTTP_SERVER_CONTAINER_PORT}
-            - ${WEBSOCKET_SERVER_LOCAL_PORT}:${WEBSOCKET_SERVER_CONTAINER_PORT}
-            - ${GRPC_SERVER_LOCAL_PORT}:${GRPC_SERVER_CONTAINER_PORT}
+          - ${HTTP_SERVER_LOCAL_PORT:-3000}:${HTTP_SERVER_CONTAINER_PORT:-3000}
+          - ${WEBSOCKET_SERVER_LOCAL_PORT:-4000}:${WEBSOCKET_SERVER_CONTAINER_PORT:-4000}
+          - ${GRPC_SERVER_LOCAL_PORT:-6000}:${GRPC_SERVER_CONTAINER_PORT:-6000}
         depends_on:
-            - "mongo"
+          - "mongo"
     mongo:
         image: mongo
         restart: always
         environment:
-            MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
-            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+            MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME:-root}
+            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD:-example}
         ports:
-            - ${MONGO_LOCAL_PORT}:${MONGO_CONTAINER_PORT}
+          - ${MONGO_LOCAL_PORT:-27017}:${MONGO_CONTAINER_PORT:-27017}
 
     mongo-express:
         image: mongo-express
         restart: always
         ports:
-            - 8081:8081
+          - 8081:8081
         environment:
-             ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_USERNAME}
-             ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_PASSWORD}
-             ME_CONFIG_MONGODB_URL: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_CONTAINER_PORT}/
+             ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_USERNAME:-root}
+             ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_PASSWORD:-example}
+             ME_CONFIG_MONGODB_URL: mongodb://${MONGO_USERNAME:-root}:${MONGO_PASSWORD:-example}@${MONGO_HOST:-mongo}:${MONGO_CONTAINER_PORT:-27017}/
         depends_on:
-            - "mongo"
+          - "mongo"
