@@ -1,5 +1,5 @@
-export const WEBSOCKET_EVENTS={
-    CONNECTION:"connection",
-    LISTENING:"listening",
-    CLOSE:"close",
+export enum WEBSOCKET_EVENTS{
+    CONNECTION="connection",
+    LISTENING="listening",
+    CLOSE="close",
 }

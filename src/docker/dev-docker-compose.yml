@@ -12,7 +12,7 @@ services:
         restart: always
         environment:
             host: mongo
-            port: ${MONGO_CONTAINER_PORT-27017}
+            port: ${MONGO_CONTAINER_PORT:-27017}
             username: ${MONGO_USERNAME:-root}
             password: ${MONGO_PASSWORD:-example}
             dbName: ${MONGO_DB:-myCollection}

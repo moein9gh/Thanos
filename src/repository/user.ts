@@ -1,4 +1,4 @@
-import {DbConfig} from "@config";
+import {CONFIG} from "@config";
 import * as store from "@store";
 import {MongoClient} from "mongodb";
 import {IBaseRepository} from "@ports";

@@ -1,12 +1,12 @@
 import {MongoClient,Db} from 'mongodb'
-import {DbConfig} from "@config"
+import {CONFIG} from "@config"
 
 export class Server {
 
     constructor(readonly host: string, readonly port: number, readonly username: string, readonly password: string,readonly client:MongoClient,readonly db:Db) {
     }
 
-    public static async setup(cfg: DbConfig) {
+    public static async setup(cfg: CONFIG) {
         try {
 
             const url = `mongodb://${cfg.username}:${cfg.password}@${cfg.host}:${cfg.port}`;

@@ -1,3 +1,5 @@
+import {APP_CONFIG} from "@config";
+
 const grpc = require("@grpc/grpc-js");
 const PROTO_PATH = process.cwd()+"/src/protos/news.proto";
 const protoLoader = require("@grpc/proto-loader");
@@ -28,11 +30,11 @@ export class GrpcServer{
         });
 
         server.bindAsync(
-            "127.0.0.1:"+process.env.GRPC_SERVER_LOCAL_PORT,
+            "127.0.0.1:"+APP_CONFIG.grpcServerPort,
             grpc.ServerCredentials.createInsecure(),
             (error, port) => {
                 if(!error){
-                    console.log("grpc server running on "+process.env.GRPC_SERVER_LOCAL_PORT);
+                    console.log("grpc server running on "+APP_CONFIG.grpcServerPort);
                     server.start();
                 }else{
                     console.log("grpc server error",error);

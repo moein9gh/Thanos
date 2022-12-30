@@ -14,6 +14,8 @@ import * as store from "@store"
 import * as gateway from "@gateway"
 import * as repository from "@repository";
 import {UserInteractor} from "@interactor";
+import {APP_CONFIG} from "@config";
+import {Middlewares} from "../gateway/http/middlewares";
 
 
 
@@ -21,15 +23,11 @@ async function bootstrap() {
 
     try{
 
-        const db = await store.Server.setup({
-            password:process.env.password || "root",
-            port:Number(process.env.password) || 27017,
-            username:process.env.username || "root",
-            host:process.env.host || "localhost",
-            dbName:process.env.dbName || "test"
-        })
+        const db = await store.Server.setup(APP_CONFIG)
 
-        let router = gateway.newRouter()
+        let router = gateway.Router.NewRouter()!
+
+        gateway.Middlewares.Register(router)
 
         const uRepository = repository.UserRepository.Setup(db)
 
@@ -37,10 +35,10 @@ async function bootstrap() {
 
         const handlers = gateway.UserController.Setup(uInteractor)
 
-        const routes = gateway.UserRoutes.RegisterRoutes(handlers,router)
+        gateway.UserRoutes.RegisterRoutes(handlers,router)
 
-        gateway.HttpServer.NewServer(routes)?.listen(process.env.HTTP_SERVER_LOCAL_PORT,()=>{
-            console.log("server is running",process.env.HTTP_SERVER_LOCAL_PORT)
+        gateway.HttpServer.NewServer(router)?.listen(APP_CONFIG.httpServerPort,()=>{
+            console.log("server is running",APP_CONFIG.httpServerPort)
         })
 
         gateway.Websocket.NewServer()

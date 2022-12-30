@@ -31,18 +31,18 @@ export class Router {
         return Router.router
     }
 }
-
-export function newRouter(): express.Router {
-    const router = express.Router()
-
-    router.use(express.json())
-    router.use(express.urlencoded({extended: true}))
-
-    router.use(helmet());
-    router.use(cors({
-        methods: "*",
-        origin: "*"
-    }));
-
-    return router;
-}
+//
+// export function newRouter(): express.Router {
+//     const router = express.Router()
+//
+//     router.use(express.json())
+//     router.use(express.urlencoded({extended: true}))
+//
+//     router.use(helmet());
+//     router.use(cors({
+//         methods: "*",
+//         origin: "*"
+//     }));
+//
+//     return router;
+// }
