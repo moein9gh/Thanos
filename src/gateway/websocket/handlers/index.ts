@@ -1,7 +1,8 @@
 import {EVENTS} from "@gateway";
 
 export function onMessage(event) {
-    switch (event.data.action) {
+    const data = JSON.parse(event.data)
+    switch (data.action) {
         case EVENTS.PING :
             console.log("PING action")
 
