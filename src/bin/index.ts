@@ -4,6 +4,7 @@
 
 import * as moduleAlias from "module-alias"
 moduleAlias.default()
+
 import * as dotenv from 'dotenv'
 
 dotenv.config({
@@ -15,8 +16,6 @@ import * as gateway from "@gateway"
 import * as repository from "@repository";
 import {UserInteractor} from "@interactor";
 import {APP_CONFIG} from "@config";
-import {Middlewares} from "../gateway/http/middlewares";
-
 
 
 async function bootstrap() {

@@ -3,6 +3,7 @@ import helmet from 'helmet'
 import cors from 'cors'
 import expressWinston from 'express-winston'
 import winston from 'winston'
+import path from "path";
 
 export class Middlewares {
 
@@ -26,7 +27,8 @@ export class Middlewares {
         }));
 
         router.use(express.urlencoded({extended: true}))
-
+        console.log(path.resolve("src","static"))
+        router.use(express.static(path.resolve("src","static")))
 
         router.use(helmet());
         router.use(cors({
