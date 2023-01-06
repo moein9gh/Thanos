@@ -1,9 +1,9 @@
 import express from 'express'
 import helmet from 'helmet'
 import cors from 'cors'
+import {APP_CONFIG} from '@config'
 import expressWinston from 'express-winston'
 import winston from 'winston'
-import path from "path";
 
 export class Middlewares {
 
@@ -19,16 +19,16 @@ export class Middlewares {
                 winston.format.json()
             ),
             level: function(req, res, err) { return String("info"); },
-            meta: false, // optional: control whether you want to log the meta data about the request (default to true)
-            msg: "HTTP {{req.method}} {{req.url}}", // optional: customize the default logging message. E.g. "{{res.statusCode}} {{req.method}} {{res.responseTime}}ms {{req.url}}"
-            expressFormat: true, // Use the default Express/morgan request formatting. Enabling this will override any msg if true. Will only output colors with colorize set to true
-            colorize: true, // Color the text and status code, using the Express/morgan color palette (text: gray, status: default green, 3XX cyan, 4XX yellow, 5XX red).
-            ignoreRoute: function (req, res) { return false; } // optional: allows to skip some log messages based on request and/or response
+            meta: false,
+            msg: APP_CONFIG.logFormat,
+            expressFormat: true,
+            colorize: true,
+            ignoreRoute: function (req, res) { return false; }
         }));
 
         router.use(express.urlencoded({extended: true}))
-        console.log(path.resolve("src","static"))
-        router.use(express.static(path.resolve("src","static")))
+        console.log(`static folder path : ${APP_CONFIG.staticFolder}`)
+        router.use(express.static(APP_CONFIG.staticFolder))
 
         router.use(helmet());
         router.use(cors({

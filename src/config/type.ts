@@ -7,4 +7,6 @@ export type CONFIG = {
     httpServerPort:number,
     websocketServerPort:number,
     grpcServerPort:number,
+    logFormat:string,
+    staticFolder:string
 }
