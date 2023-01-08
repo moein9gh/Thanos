@@ -16,12 +16,6 @@ export class Router {
         router.use(express.json())
         router.use(express.urlencoded({extended: true}))
 
-        router.use(helmet());
-        router.use(cors({
-            methods: "*",
-            origin: "*"
-        }));
-
         new Router(router)
 
         return Router.router;
