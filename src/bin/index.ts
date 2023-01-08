@@ -40,7 +40,7 @@ async function bootstrap() {
             console.log("server is running",APP_CONFIG.httpServerPort)
         })
 
-        gateway.Websocket.NewServer()
+        gateway.Websocket.NewServerOnSamePort(gateway.HttpServer.GetServer()!)
 
         gateway.GrpcServer.NewServer()
 
