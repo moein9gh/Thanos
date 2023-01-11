@@ -11,7 +11,9 @@ export class UserRepository implements IBaseRepository{
     create(): any {
         console.log(this.store.client.model("User"))
         console.log("create UserRepository",this.store.client.model("User").create({}))
-        this.store.models.create({})
+        this.store.User.getEntity().create(
+            {}
+        )
     }
     read(): any {}
     update(): any {}

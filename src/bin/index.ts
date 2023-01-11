@@ -6,23 +6,22 @@ import * as moduleAlias from "module-alias"
 moduleAlias.default()
 
 import * as dotenv from 'dotenv'
-import * as entity from '@entity'
-
-dotenv.config({
-    path:process.cwd()+"/src/env/.env"
-});
-
+import {User} from '@entity'
 import * as store from "@store"
 import * as gateway from "@gateway"
 import * as repository from "@repository";
 import {UserInteractor} from "@interactor";
 import {APP_CONFIG} from "@config";
-import {User} from "@entity";
+
+
+dotenv.config({
+    path: process.cwd() + "/src/env/.env"
+});
 
 
 async function bootstrap() {
 
-    try{
+    try {
 
         const db = await store.Server.setup(APP_CONFIG,(new User()))
 
@@ -36,18 +35,18 @@ async function bootstrap() {
 
         const handlers = gateway.UserController.Setup(uInteractor)
 
-        gateway.UserRoutes.RegisterRoutes(handlers,router)
+        gateway.UserRoutes.RegisterRoutes(handlers, router)
 
-        gateway.HttpServer.NewServer(router)?.listen(APP_CONFIG.httpServerPort,()=>{
-            console.log("server is running",APP_CONFIG.httpServerPort)
+        gateway.HttpServer.NewServer(router)?.listen(APP_CONFIG.httpServerPort, () => {
+            console.log("server is running", APP_CONFIG.httpServerPort)
         })
 
         gateway.Websocket.NewServerOnSamePort(gateway.HttpServer.GetServer()!)
 
         gateway.GrpcServer.NewServer()
 
-    }catch (e) {
-        console.log("error",e)
+    } catch (e) {
+        console.log("error", e)
     }
 }
 

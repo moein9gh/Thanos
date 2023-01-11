@@ -1,12 +1,14 @@
 import {CONFIG} from "@config"
 import * as mongoose from "mongoose";
-import {IBaseEntity} from "@ports";
+import {IBaseEntity, UserEntity} from "@ports";
+import {User} from "@entity";
+
 export class Server {
 
-    constructor(readonly host: string, readonly port: number, readonly username: string, readonly password: string, readonly client: mongoose.Mongoose,readonly models: mongoose.Model<any>) {
+    constructor(readonly host: string, readonly port: number, readonly username: string, readonly password: string, readonly client: mongoose.Mongoose, readonly User: User) {
     }
 
-    public static async setup(cfg: CONFIG, ...entities: [IBaseEntity]) {
+    public static async setup(cfg: CONFIG, UserEntity: User) {
         try {
 
             const url = `mongodb://${cfg.username}:${cfg.password}@${cfg.host}:${cfg.port}`;
@@ -15,14 +17,9 @@ export class Server {
 
             console.log('Connected successfully to database');
 
-            let models
-            for (const e of entities) {
-                e.defineEntity()
-                models = e.getEntity()
-                console.log("e.getEntity().baseModelName", e.getEntity().collection.collectionName)
-            }
+            UserEntity.defineEntity()
 
-            return (new Server(cfg.host, cfg.port, cfg.username, cfg.password, client,models))
+            return (new Server(cfg.host, cfg.port, cfg.username, cfg.password, client, UserEntity))
 
         } catch (e) {
             console.log(e)
