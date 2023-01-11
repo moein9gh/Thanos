@@ -17,7 +17,7 @@ export class UserController{
             res.send("hi3")
 
         }catch (e) {
-            console.log(12,e)
+            console.log("error",e)
         }
     }
 

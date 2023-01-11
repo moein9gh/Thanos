@@ -1,24 +1,28 @@
-import {MongoClient,Db} from 'mongodb'
 import {CONFIG} from "@config"
-
+import * as mongoose from "mongoose";
+import {IBaseEntity} from "@ports";
 export class Server {
 
-    constructor(readonly host: string, readonly port: number, readonly username: string, readonly password: string,readonly client:MongoClient,readonly db:Db) {
+    constructor(readonly host: string, readonly port: number, readonly username: string, readonly password: string, readonly client: mongoose.Mongoose,readonly models: mongoose.Model<any>) {
     }
 
-    public static async setup(cfg: CONFIG) {
+    public static async setup(cfg: CONFIG, ...entities: [IBaseEntity]) {
         try {
 
             const url = `mongodb://${cfg.username}:${cfg.password}@${cfg.host}:${cfg.port}`;
-            const client: MongoClient = new MongoClient(url);
 
-            await client.connect();
+            const client = await mongoose.connect(url)
 
             console.log('Connected successfully to database');
 
-            const db = client.db(cfg.dbName);
+            let models
+            for (const e of entities) {
+                e.defineEntity()
+                models = e.getEntity()
+                console.log("e.getEntity().baseModelName", e.getEntity().collection.collectionName)
+            }
 
-            return new Server(cfg.host, cfg.port,cfg.username,cfg.password,client,db)
+            return (new Server(cfg.host, cfg.port, cfg.username, cfg.password, client,models))
 
         } catch (e) {
             console.log(e)

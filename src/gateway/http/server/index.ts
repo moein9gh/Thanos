@@ -1,15 +1,16 @@
 import express from "express";
 import http from "http";
+import {Router} from "@gateway";
 
 export class HttpServer {
 
     static server : http.Server | null = null
 
-    constructor(readonly routes: express.Router) {
-       HttpServer.server = http.createServer(express().use(this.routes))
+    constructor(readonly routes: Router) {
+        HttpServer.server = http.createServer(express().use(this.routes.getRouter()))
     }
 
-    static NewServer(routes: express.Router): http.Server | null {
+    static NewServer(routes: Router): http.Server | null {
         new HttpServer(routes)
         return HttpServer.server
     }

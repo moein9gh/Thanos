@@ -33,6 +33,7 @@
                     "@bin/*":["bin/*"],
                     "@config":["config/index"],
                     "@types":["types/index"],
+                    "@entity":["entity/index"],
                     "@gateway":["gateway/index"],
                     "@interactor":["interactor/index"],
                     "@store":["store/index"],

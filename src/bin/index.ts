@@ -6,6 +6,7 @@ import * as moduleAlias from "module-alias"
 moduleAlias.default()
 
 import * as dotenv from 'dotenv'
+import * as entity from '@entity'
 
 dotenv.config({
     path:process.cwd()+"/src/env/.env"
@@ -16,13 +17,14 @@ import * as gateway from "@gateway"
 import * as repository from "@repository";
 import {UserInteractor} from "@interactor";
 import {APP_CONFIG} from "@config";
+import {User} from "@entity";
 
 
 async function bootstrap() {
 
     try{
 
-        const db = await store.Server.setup(APP_CONFIG)
+        const db = await store.Server.setup(APP_CONFIG,(new User()))
 
         let router = gateway.Router.NewRouter()!
 

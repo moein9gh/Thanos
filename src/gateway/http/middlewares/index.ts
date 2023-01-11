@@ -6,13 +6,15 @@ import expressWinston from 'express-winston'
 import winston from 'winston'
 import { graphqlHTTP } from 'express-graphql';
 import {buildSchema} from "graphql"
+import {Router} from "@gateway";
 
 export class Middlewares {
 
-    static Register(router: express.Router): express.Router {
-        router.use(express.json())
+    static Register(router: Router): Router {
+        const expressRouter = router.getRouter()
+        expressRouter.use(express.json())
 
-        router.use(expressWinston.logger({
+        expressRouter.use(expressWinston.logger({
             transports: [
                 new winston.transports.Console()
             ],
@@ -44,17 +46,17 @@ export class Middlewares {
             },
         };
 
-        router.use(express.urlencoded({extended: true}))
+        expressRouter.use(express.urlencoded({extended: true}))
         console.log(`static folder path : ${APP_CONFIG.staticFolder}`)
-        router.use(express.static(APP_CONFIG.staticFolder))
+        expressRouter.use(express.static(APP_CONFIG.staticFolder))
 
-        router.use(helmet({ contentSecurityPolicy: (process.env.NODE_ENV === 'production') ? undefined : false }));
-        router.use(cors({
+        expressRouter.use(helmet({ contentSecurityPolicy: (process.env.NODE_ENV === 'production') ? undefined : false }));
+        expressRouter.use(cors({
             methods: "*",
             origin: "*"
         }));
 
-        router.use('/graphql', graphqlHTTP({
+        expressRouter.use('/graphql', graphqlHTTP({
             schema: schema,
             rootValue: root,
             graphiql: true,
