@@ -6,7 +6,7 @@ export class User implements IBaseEntity {
 
     model: mongoose.Model<UserEntity> | null = null
 
-    defineEntity(): mongoose.Model<any> {
+    defineEntity(): mongoose.Model<UserEntity> {
 
         const UserSchema = new mongoose.Schema({
             username: String,
@@ -20,7 +20,7 @@ export class User implements IBaseEntity {
         return model
     }
 
-    getEntity(): mongoose.Model<any> {
+    getEntity(): mongoose.Model<UserEntity> {
         return this.model!
     }
 }

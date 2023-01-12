@@ -1,6 +1,5 @@
 import {CONFIG} from "@config"
 import * as mongoose from "mongoose";
-import {IBaseEntity, UserEntity} from "@ports";
 import {User} from "@entity";
 
 export class Server {
@@ -11,7 +10,7 @@ export class Server {
     public static async setup(cfg: CONFIG, UserEntity: User) {
         try {
 
-            const url = `mongodb://${cfg.username}:${cfg.password}@${cfg.host}:${cfg.port}`;
+            const url = `mongodb://${cfg.username}:${cfg.password}@${cfg.host}:${cfg.port}/${cfg.dbName}?authSource=admin`;
 
             const client = await mongoose.connect(url)
 

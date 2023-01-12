@@ -1,5 +1,4 @@
 import mongoose, {Document} from "mongoose";
-import {User} from "@entity";
 
 export interface IBaseEntity {
     defineEntity() : mongoose.Model<any>
