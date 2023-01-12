@@ -6,12 +6,12 @@ import * as moduleAlias from "module-alias"
 moduleAlias.default()
 
 import * as dotenv from 'dotenv'
-import {User} from '@entity'
 import * as store from "@store"
 import * as gateway from "@gateway"
 import * as repository from "@repository";
 import {UserInteractor} from "@interactor";
 import {APP_CONFIG} from "@config";
+
 
 
 dotenv.config({
@@ -23,19 +23,20 @@ async function bootstrap() {
 
     try {
 
-        const db = await store.Server.setup(APP_CONFIG,(new User()))
+
+        const postgres = await store.Postgres.setup(APP_CONFIG)
 
         let router = gateway.Router.NewRouter()!
 
-        gateway.Middlewares.Register(router)
+        gateway.Middlewares.Register(router, APP_CONFIG)
 
-        const uRepository = repository.UserRepository.Setup(db)
+        const pgUserRepository = repository.PgUserRepository.Setup(postgres, APP_CONFIG)
 
-        const uInteractor = UserInteractor.Setup(uRepository)
+        const userInteractor = UserInteractor.Setup(pgUserRepository, APP_CONFIG)
 
-        const handlers = gateway.UserController.Setup(uInteractor)
+        const handlers = gateway.UserController.Setup(userInteractor, APP_CONFIG)
 
-        gateway.UserRoutes.RegisterRoutes(handlers, router)
+        gateway.UserRoutes.RegisterRoutes(handlers, router, APP_CONFIG)
 
         gateway.HttpServer.NewServer(router)?.listen(APP_CONFIG.httpServerPort, () => {
             console.log("server is running", APP_CONFIG.httpServerPort)

@@ -13,6 +13,12 @@ declare global {
             WEBSOCKET_SERVER_CONTAINER_PORT: number;
             GRPC_SERVER_LOCAL_PORT: number;
             GRPC_SERVER_CONTAINER_PORT: number;
+            PG_HOST:string
+            PG_USERNAME:string
+            PG_PASSWORD:string
+            PG_LOCAL_PORT:number
+            PG_CONTAINER_PORT:number
+            PGADMIN_PORT:number
         }
     }
 }

@@ -1,7 +1,7 @@
 import express from 'express'
 import helmet from 'helmet'
 import cors from 'cors'
-import {APP_CONFIG} from '@config'
+import {APP_CONFIG, CONFIG} from '@config'
 import expressWinston from 'express-winston'
 import winston from 'winston'
 import { graphqlHTTP } from 'express-graphql';
@@ -10,7 +10,7 @@ import {Router} from "@gateway";
 
 export class Middlewares {
 
-    static Register(router: Router): Router {
+    static Register(router: Router,cfg:CONFIG): Router {
         const expressRouter = router.getRouter()
         expressRouter.use(express.json())
 

@@ -1,1 +1,1 @@
-export * from "./setup"
+export * from "./postgres/setup"

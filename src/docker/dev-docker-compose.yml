@@ -1,49 +1,78 @@
 # Use root/example as user/password credentials
 version: '3'
 services:
-    clean-back:
-        build:
-            context: ../../
-            dockerfile: ./src/docker/dev.Dockerfile
-        container_name: clean-back
-        command: npm run start:dev
-        working_dir: /opt/web
-        image: clean-back
-        restart: always
-        environment:
-            host: mongo
-            port: ${MONGO_CONTAINER_PORT:-27017}
-            username: ${MONGO_USERNAME:-root}
-            password: ${MONGO_PASSWORD:-example}
-            dbName: ${MONGO_DB:-myCollection}
-            HTTP_SERVER_LOCAL_PORT: ${HTTP_SERVER_LOCAL_PORT:-3000}
-        volumes:
-          - ../..:/opt/web
-          - /otp/web/node_modules
-          - ..:/opt/web/src
-        ports:
-          - ${HTTP_SERVER_LOCAL_PORT:-3000}:${HTTP_SERVER_CONTAINER_PORT:-3000}
-          - ${WEBSOCKET_SERVER_LOCAL_PORT:-4000}:${WEBSOCKET_SERVER_CONTAINER_PORT:-4000}
-          - ${GRPC_SERVER_LOCAL_PORT:-6000}:${GRPC_SERVER_CONTAINER_PORT:-6000}
-        depends_on:
-          - "mongo"
-    mongo:
-        image: mongo
-        restart: always
-        environment:
-            MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME:-root}
-            MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD:-example}
-        ports:
-          - ${MONGO_LOCAL_PORT:-27017}:${MONGO_CONTAINER_PORT:-27017}
-
-    mongo-express:
-        image: mongo-express
-        restart: always
-        ports:
-          - 8081:8081
-        environment:
-             ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_USERNAME:-root}
-             ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_PASSWORD:-example}
-             ME_CONFIG_MONGODB_URL: mongodb://${MONGO_USERNAME:-root}:${MONGO_PASSWORD:-example}@${MONGO_HOST:-mongo}:${MONGO_CONTAINER_PORT:-27017}/
-        depends_on:
-          - "mongo"
+  clean-back:
+    build:
+      context: ../../
+      dockerfile: ./src/docker/dev.Dockerfile
+    container_name: clean-back
+    command: npm run start:dev
+    working_dir: /opt/web
+    image: clean-back
+    restart: always
+    environment:
+      MONGO_HOST: mongo
+      MONGO_CONTAINER_PORT: ${MONGO_CONTAINER_PORT:-27017}
+      MONGO_USERNAME: ${MONGO_USERNAME:-root}
+      MONGO_PASSWORD: ${MONGO_PASSWORD:-example}
+      MONGO_DB: ${MONGO_DB:-myCollection}
+      HTTP_SERVER_LOCAL_PORT: ${HTTP_SERVER_LOCAL_PORT:-3000}
+      WEBSOCKET_SERVER_CONTAINER_PORT: ${WEBSOCKET_SERVER_CONTAINER_PORT:-4000}
+      GRPC_SERVER_CONTAINER_PORT: ${GRPC_SERVER_CONTAINER_PORT:-5000}
+      PG_HOST: ${PG_HOST:-postgres}
+      PG_CONTAINER_PORT: ${PG_CONTAINER_PORT:-5432}
+      PG_USERNAME: ${PG_USERNAME:-postgres}
+      PG_PASSWORD: ${PG_PASSWORD:-changeme}
+      PG_DB: ${PG_HOST:-myPostgresDb}
+    volumes:
+      - ../..:/opt/web
+      - /otp/web/node_modules
+      - ..:/opt/web/src
+    ports:
+      - ${HTTP_SERVER_LOCAL_PORT:-3000}:${HTTP_SERVER_CONTAINER_PORT:-3000}
+      - ${WEBSOCKET_SERVER_LOCAL_PORT:-4000}:${WEBSOCKET_SERVER_CONTAINER_PORT:-4000}
+      - ${GRPC_SERVER_LOCAL_PORT:-6000}:${GRPC_SERVER_CONTAINER_PORT:-6000}
+    depends_on:
+      - "mongo"
+      - "postgres"
+  postgres:
+    container_name: postgres_container
+    image: postgres
+    environment:
+      POSTGRES_USER: ${PG_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${PG_PASSWORD:-changeme}
+      PGDATA: /data/postgres
+    ports:
+      - ${PG_LOCAL_PORT:-5432}:${PG_CONTAINER_PORT:-5432}
+    restart: unless-stopped
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - ${PGADMIN_PORT:-5050}:80
+    restart: unless-stopped
+    depends_on:
+      - "postgres"
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME:-root}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD:-example}
+    ports:
+      - ${MONGO_LOCAL_PORT:-27017}:${MONGO_CONTAINER_PORT:-27017}
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGO_USERNAME:-root}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_PASSWORD:-example}
+      ME_CONFIG_MONGODB_URL: mongodb://${MONGO_USERNAME:-root}:${MONGO_PASSWORD:-example}@${MONGO_HOST:-mongo}:${MONGO_CONTAINER_PORT:-27017}/
+    depends_on:
+      - "mongo"

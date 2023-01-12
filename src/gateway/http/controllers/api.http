@@ -1,0 +1,10 @@
+POST localhost:3000/api/users/
+Content-Type: application/json
+
+{}
+
+###
+GET {{HOST}}/api/users
+Accept: application/json
+
+###

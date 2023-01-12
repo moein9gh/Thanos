@@ -8,5 +8,11 @@ export type CONFIG = {
     websocketServerPort:number,
     grpcServerPort:number,
     logFormat:string,
-    staticFolder:string
+    staticFolder:string,
+    postgresHost:string,
+    postgresPort:number,
+    postgresDbName:string,
+    postgresUsername:string,
+    postgresPassword:string,
+    jwtSecretKey:string,
 }
