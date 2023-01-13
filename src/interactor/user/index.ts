@@ -1,2 +1,2 @@
-export * from "./setup"
+export * from "./user.interactor"
 //export * from "./user"

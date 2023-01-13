@@ -1,10 +1,4 @@
-POST localhost:3000/api/users/
-Content-Type: application/json
-
-{}
-
-###
-GET {{HOST}}/api/users
+POST http://localhost:3000/api/auth/sms-verification
 Accept: application/json
 
 ###

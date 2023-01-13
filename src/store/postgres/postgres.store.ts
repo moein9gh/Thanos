@@ -2,7 +2,6 @@ import {CONFIG} from "@config"
 import {Client} from "pg"
 import {Migrator} from '@migrations';
 
-// const sql = fs.readFileSync(path.resolve("src", "migrations","11_add_users_table.sql")).toString();
 export class Postgres {
 
     constructor(readonly host: string, readonly port: number, readonly username: string, readonly password: string, readonly client: Client) {
@@ -24,7 +23,7 @@ export class Postgres {
 
             const migrator = new Migrator(pgInstance)
 
-            await migrator.dropTables()
+            // await migrator.dropTables()
             await migrator.execMigrations()
 
             console.log('Connected successfully to postgres database');

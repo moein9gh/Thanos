@@ -29,6 +29,7 @@
         "@gateway": "dist/gateway/index.js",
         "@interactor": "dist/interactor/index.js",
         "@config": "dist/config/index.js",
+        "@model": "dist/model/index.js",
         "@entity": "dist/entity/index.js",
         "@migrations": "dist/migrations/index.js",
         "@utils": "dist/utils/index.js",
@@ -39,6 +40,7 @@
     "dependencies": {
         "@grpc/grpc-js": "^1.8.0",
         "@grpc/proto-loader": "^0.7.4",
+        "@types/axios": "^0.14.0",
         "@types/cors": "^2.8.13",
         "@types/debug": "^4.1.7",
         "@types/dotenv": "^8.2.0",
@@ -53,6 +55,7 @@
         "@types/redis": "^4.0.11",
         "@types/winston": "^2.4.4",
         "@types/ws": "^8.5.3",
+        "axios": "^1.2.2",
         "cors": "^2.8.5",
         "debug": "^4.3.4",
         "dotenv": "^16.0.3",

@@ -1,3 +1,4 @@
-export * from "./user"
-export * from "./repository"
-export * from "./controller"
+export * from "./user.port"
+export * from "./repository.port"
+export * from "./controller.port"
+export * from "./userRepository.port"

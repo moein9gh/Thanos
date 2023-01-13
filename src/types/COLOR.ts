@@ -1,5 +1,3 @@
-import chalk from 'chalk'
-
 export enum COLORS {
     gray = '#231331',      //for info
     green = '#45f305',    //for success

@@ -33,6 +33,7 @@
                     "@bin/*":["bin/*"],
                     "@config":["config/index"],
                     "@types":["types/index"],
+                    "@model":["model/index"],
                     "@entity":["entity/index"],
                     "@gateway":["gateway/index"],
                     "@migrations":["migrations/index"],
