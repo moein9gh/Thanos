@@ -20,7 +20,7 @@
     }
   },
   "lint-staged": {
-    "src/bin/index.ts": "npm run lint:fix"
+    "src/**/*.ts": "npm run lint:fix"
   },
   "keywords": [],
   "author": "",
