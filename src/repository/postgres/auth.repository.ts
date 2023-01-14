@@ -7,12 +7,12 @@ export class PgAuthRepository implements IAuthRepository {
     }
 
     static Setup(db: store.Postgres, cfg: CONFIG): PgAuthRepository {
-        return new PgAuthRepository(db, cfg)
+        return new PgAuthRepository(db, cfg);
     }
 
     async create(): Promise<any> {
-        const values = ['moein', 'test', "test"]
-        return this.store.client.query("INSERT INTO users(username, password, phone_number) VALUES($1, $2, $3) RETURNING *", values)
+        const values = ["moein", "test", "test"];
+        return this.store.client.query("INSERT INTO users(username, password, phone_number) VALUES($1, $2, $3) RETURNING *", values);
     }
 
     read(): any {

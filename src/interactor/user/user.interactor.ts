@@ -1,4 +1,4 @@
-import {IUserInteractor, IUserRepository} from "@ports"
+import {IUserInteractor, IUserRepository} from "@ports";
 import {CONFIG} from "@config";
 import {IAuthRepository} from "../../ports/authRepository.port";
 
@@ -11,16 +11,14 @@ export class UserInteractor implements IUserInteractor {
     }
 
     static Setup(pgUserRepo: IUserRepository, pgAuthRepo: IAuthRepository, cfg: CONFIG): UserInteractor {
-        return new UserInteractor(pgUserRepo, pgAuthRepo, cfg)
+        return new UserInteractor(pgUserRepo, pgAuthRepo, cfg);
     }
 
     async create(): Promise<any> {
-        console.log("create UserInteractor")
-        await this.pgUserRepo.insertOne()
+        await this.pgUserRepo.insertOne();
     }
 
     async getUsers(): Promise<any> {
-        console.log("getUsers UserInteractor")
-        this.pgUserRepo.insertOne()
+        this.pgUserRepo.insertOne();
     }
 }

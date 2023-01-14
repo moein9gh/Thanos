@@ -5,12 +5,12 @@ import {CONFIG} from "@config";
 export class UserRoutes {
     static RegisterRoutes(userController: IUserController, router: Router, cfg: CONFIG): Router {
 
-        const expressRouter = router.getRouter()
+        const expressRouter = router.getRouter();
 
         expressRouter.route("/")
             .get<any, string>(userController.getUsers)
-            .post<any, string>(userController.createUser)
+            .post<any, string>(userController.createUser);
 
-        return router
+        return router;
     }
 }

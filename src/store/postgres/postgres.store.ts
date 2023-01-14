@@ -1,6 +1,6 @@
-import {CONFIG} from "@config"
-import {Client} from "pg"
-import {Migrator} from '@migrations';
+import {CONFIG} from "@config";
+import {Client} from "pg";
+import {Migrator} from "@migrations";
 
 export class Postgres {
 
@@ -15,24 +15,23 @@ export class Postgres {
                 port: cfg.postgresPort,
                 user: cfg.postgresUsername,
                 password: cfg.postgresPassword
-            })
+            });
 
-            await pgClient.connect()
+            await pgClient.connect();
 
-            const pgInstance = new Postgres(cfg.postgresHost, cfg.postgresPort, cfg.postgresUsername, cfg.password, pgClient)
+            const pgInstance = new Postgres(cfg.postgresHost, cfg.postgresPort, cfg.postgresUsername, cfg.password, pgClient);
 
-            const migrator = new Migrator(pgInstance)
+            const migrator = new Migrator(pgInstance);
 
             // await migrator.dropTables()
-            await migrator.execMigrations()
+            await migrator.execMigrations();
 
-            console.log('Connected successfully to postgres database');
+            // console.log('Connected successfully to postgres database');
 
-            return pgInstance
+            return pgInstance;
 
         } catch (e) {
-            console.log(e)
-            throw e
+            throw e;
         }
     }
 }

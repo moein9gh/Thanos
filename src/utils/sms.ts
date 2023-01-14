@@ -1,7 +1,7 @@
 export async function sendSMS(phoneNumber, text): Promise<boolean> {
 
     if(!phoneNumber || !text){
-        return false
+        return false;
     }
     // const token = process.env.SMS_TOKEN;
     // const bodyId = process.env.SMS_BODY_ID
@@ -13,10 +13,9 @@ export async function sendSMS(phoneNumber, text): Promise<boolean> {
 
     try {
         // let resp =  await axios.post('https://console.melipayamak.com/api/send/shared/'+token, json)
-        return true
+        return true;
     } catch (error) {
-        console.log(error)
-        return false
+        return false;
     }
 
 }

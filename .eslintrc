@@ -1,0 +1,15 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+  ],
+  "extends": [
+  ],
+  "rules": {
+    "no-console": "error",
+    "semi": "error",
+    "quotes": ["error", "double"],
+    "no-multi-spaces": "error",
+    "arrow-body-style": "error"
+  }
+}

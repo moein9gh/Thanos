@@ -18,4 +18,4 @@ export const APP_CONFIG: CONFIG = {
     postgresPassword: process.env.PG_PASSWORD || "changeme",
     postgresDbName: process.env.PG_HOST || "myCollection",
     jwtSecretKey: process.env.JWT_SECRET_KEY || "veryStrongKey:)",
-}
+};

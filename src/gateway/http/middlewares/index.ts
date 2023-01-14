@@ -1,18 +1,18 @@
-import express from 'express'
-import helmet from 'helmet'
-import cors from 'cors'
-import {APP_CONFIG, CONFIG} from '@config'
-import expressWinston from 'express-winston'
-import winston from 'winston'
-import { graphqlHTTP } from 'express-graphql';
-import {buildSchema} from "graphql"
+import express from "express";
+import helmet from "helmet";
+import cors from "cors";
+import {APP_CONFIG, CONFIG} from "@config";
+import expressWinston from "express-winston";
+import winston from "winston";
+import { graphqlHTTP } from "express-graphql";
+import {buildSchema} from "graphql";
 import {Router} from "@gateway";
 
 export class Middlewares {
 
     static Register(router: Router,cfg:CONFIG): Router {
-        const expressRouter = router.getRouter()
-        expressRouter.use(express.json())
+        const expressRouter = router.getRouter();
+        expressRouter.use(express.json());
 
         expressRouter.use(expressWinston.logger({
             transports: [
@@ -41,22 +41,20 @@ export class Middlewares {
         `);
 
         const root = {
-            hello: () => {
-                return 'Hello world!';
-            },
+            hello: () => "Hello world!",
         };
 
-        expressRouter.use(express.urlencoded({extended: true}))
-        console.log(`static folder path : ${APP_CONFIG.staticFolder}`)
-        expressRouter.use(express.static(APP_CONFIG.staticFolder))
+        expressRouter.use(express.urlencoded({extended: true}));
+        // console.log(`static folder path : ${APP_CONFIG.staticFolder}`);
+        expressRouter.use(express.static(APP_CONFIG.staticFolder));
 
-        expressRouter.use(helmet({ contentSecurityPolicy: (process.env.NODE_ENV === 'production') ? undefined : false }));
+        expressRouter.use(helmet({ contentSecurityPolicy: (process.env.NODE_ENV === "production") ? undefined : false }));
         expressRouter.use(cors({
             methods: "*",
             origin: "*"
         }));
 
-        expressRouter.use('/graphql', graphqlHTTP({
+        expressRouter.use("/graphql", graphqlHTTP({
             schema: schema,
             rootValue: root,
             graphiql: true,

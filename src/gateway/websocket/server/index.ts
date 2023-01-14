@@ -12,13 +12,13 @@ export class Websocket {
         const ws = new Server({port: APP_CONFIG.websocketServerPort});
 
         ws.on(WEBSOCKET_EVENTS.LISTENING, () => {
-            console.log('websocket server is listening on', APP_CONFIG.websocketServerPort);
+            // console.log('websocket server is listening on', APP_CONFIG.websocketServerPort);
         });
 
         ws.on(WEBSOCKET_EVENTS.CONNECTION, (ws) => {
-            console.log("websocket new connection");
-            ws.on(WEBSOCKET_EVENTS.CLOSE, () => console.log("websocket connection closed"));
-            ws.onmessage = onMessage
+            // console.log("websocket new connection");
+            ws.on(WEBSOCKET_EVENTS.CLOSE, () => true/*console.log("websocket connection closed")*/);
+            ws.onmessage = onMessage;
         });
     }
 
@@ -26,23 +26,22 @@ export class Websocket {
         const wsServer = new Server({noServer: true});
 
         httpServer.on("upgrade", async (req, socket, head) => {
-            try{
+            try {
                 wsServer.handleUpgrade(req, socket, head, (websocket) => {
                     wsServer.emit("connection", websocket, req);
                 });
             } catch (err: any) {
-                console.log(err)
             }
         });
 
         wsServer.on(WEBSOCKET_EVENTS.LISTENING, () => {
-            console.log('websocket server is listening on', APP_CONFIG.websocketServerPort);
+            // console.log('websocket server is listening on', APP_CONFIG.websocketServerPort);
         });
 
         wsServer.on(WEBSOCKET_EVENTS.CONNECTION, (ws) => {
-            console.log("websocket new connection");
-            ws.on(WEBSOCKET_EVENTS.CLOSE, () => console.log("websocket connection closed"));
-            ws.onmessage = onMessage
+            // console.log("websocket new connection");
+            ws.on(WEBSOCKET_EVENTS.CLOSE, () => true/*console.log("websocket connection closed")*/);
+            ws.onmessage = onMessage;
         });
     }
 }

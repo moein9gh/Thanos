@@ -24,7 +24,7 @@ export class GrpcServer{
 
         server.addService(newsProto.NewsService.service, {
             getAllNews: (_, callback) => {
-                console.log("received")
+                // console.log("received")
                 callback(null, news);
             }, 
         });
@@ -34,10 +34,10 @@ export class GrpcServer{
             grpc.ServerCredentials.createInsecure(),
             (error, port) => {
                 if(!error){
-                    console.log("grpc server running on "+APP_CONFIG.grpcServerPort);
+                    // console.log("grpc server running on "+APP_CONFIG.grpcServerPort);
                     server.start();
                 }else{
-                    console.log("grpc server error",error);
+                    // console.log("grpc server error",error);
                 }
             }
         );

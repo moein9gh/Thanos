@@ -32,7 +32,7 @@ export class User {
             this.role, this.sex,
             this.birthday.toISOString(), this.lastVerificationTime.toISOString(),
             this.createdOn.toISOString(), this.updatedOn.toISOString()
-        )
+        );
     }
 
 }

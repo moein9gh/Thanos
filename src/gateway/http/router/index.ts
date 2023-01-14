@@ -1,4 +1,4 @@
-import express from 'express'
+import express from "express";
 
 export class Router {
 
@@ -6,15 +6,15 @@ export class Router {
     }
 
     static NewRouter(): Router {
-        const router = express.Router()
+        const router = express.Router();
 
-        router.use(express.json())
-        router.use(express.urlencoded({extended: true}))
+        router.use(express.json());
+        router.use(express.urlencoded({extended: true}));
 
         return (new Router(router));
     }
 
     getRouter(): express.Router {
-        return this.router
+        return this.router;
     }
 }

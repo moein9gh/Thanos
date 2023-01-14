@@ -1,6 +1,6 @@
 import {User} from "@model";
 
-new Date().toISOString()
+new Date().toISOString();
 
 export class UserEntity {
     constructor(
@@ -34,7 +34,7 @@ export class UserEntity {
             queryResult.role, queryResult.sex,
             queryResult.birthday, queryResult.last_verification_time,
             queryResult.created_on, queryResult.updated_on
-        )
+        );
     }
 
 
@@ -48,7 +48,7 @@ export class UserEntity {
             this.role, this.sex,
             new Date(this.birthday), new Date(this.last_verification_time),
             new Date(this.created_on), new Date(this.updated_on)
-        )
+        );
     }
 
 }

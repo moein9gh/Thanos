@@ -1,2 +1,2 @@
-export * from "./postgres/user.repository"
-export * from "./postgres/auth.repository"
+export * from "./postgres/user.repository";
+export * from "./postgres/auth.repository";

@@ -9,15 +9,33 @@
         "start": "node dist/bin/index.js",
         "start:dev": "tsc-watch -outDir ./dist --onSuccess \"nodemon ./dist/bin/index.js\" --onFailure \"echo failed to compile ts project\"",
         "docker:up": "docker-compose -f ./src/docker/dev-docker-compose.yml --env-file ./src/env/.env up --build",
-        "docker:down": "docker-compose -f ./src/docker/dev-docker-compose.yml --env-file ./src/env/.env down"
+        "docker:down": "docker-compose -f ./src/docker/dev-docker-compose.yml --env-file ./src/env/.env down",
+        "lint": "eslint 'src/**/*.ts'",
+        "lint:fix": "eslint 'src/**/*.ts' --fix"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "yarn lint-staged"
+        }
+    },
+    "lint-staged": {
+        "src/**/*.ts": [
+            "eslint --fix",
+            "git add"
+        ]
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "devDependencies": {
         "@types/mongodb": "^4.0.7",
+        "@typescript-eslint/eslint-plugin": "^5.48.1",
+        "@typescript-eslint/parser": "^5.48.1",
         "concurrently": "^7.6.0",
         "copyfiles": "^2.4.1",
+        "eslint": "^8.31.0",
+        "husky": "8.0.3",
+        "lint-staged": "13.1.0",
         "nodemon": "^2.0.20",
         "pm2": "^5.2.2",
         "rimraf": "^3.0.2",

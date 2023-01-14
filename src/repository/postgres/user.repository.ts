@@ -11,12 +11,12 @@ export class PgUserRepository implements IUserRepository {
     }
 
     static Setup(db: store.Postgres, cfg: CONFIG): PgUserRepository {
-        return new PgUserRepository(db, cfg)
+        return new PgUserRepository(db, cfg);
     }
 
     async create(): Promise<any> {
-        const values = ['moein', 'test', "test"]
-        return this.store.client.query("INSERT INTO users(username, password, phone_number) VALUES($1, $2, $3) RETURNING *", values)
+        const values = ["moein", "test", "test"];
+        return this.store.client.query("INSERT INTO users(username, password, phone_number) VALUES($1, $2, $3) RETURNING *", values);
     }
 
     read(): any {
@@ -37,46 +37,43 @@ export class PgUserRepository implements IUserRepository {
     async updateOne(id: string, userEntity: UserEntity): Promise<REPOSITORY_RESULT<User>> {
         try {
 
-            const query = updateQueryBuilder("users", userEntity, `WHERE id=${id}`)
-            console.log(query)
+            const query = updateQueryBuilder("users", userEntity, `WHERE id=${id}`);
 
-            const queryResult = await this.store.client.query(query)
-            const convertedResult: User[] = []
+            const queryResult = await this.store.client.query(query);
+            const convertedResult: User[] = [];
 
             for (const res of queryResult.rows) {
-                convertedResult.push((UserEntity.Create(res)).mapToModel())
+                convertedResult.push((UserEntity.Create(res)).mapToModel());
             }
 
             return {
                 rows: convertedResult,
                 rowCount: queryResult.rowCount,
                 success: true
-            }
+            };
 
         } catch (e) {
-            console.log(e)
-            throw e
+            throw e;
         }
     }
 
     async findByPhoneNumber(phoneNumber: string): Promise<REPOSITORY_RESULT<User>> {
         try {
-            const queryResult = await this.store.client.query("SELECT * FROM users WHERE phone_number=$1", [phoneNumber])
-            const convertedResult: User[] = []
+            const queryResult = await this.store.client.query("SELECT * FROM users WHERE phone_number=$1", [phoneNumber]);
+            const convertedResult: User[] = [];
 
             for (const res of queryResult.rows) {
-                convertedResult.push((UserEntity.Create(res)).mapToModel())
+                convertedResult.push((UserEntity.Create(res)).mapToModel());
             }
 
             return {
                 rows: convertedResult,
                 rowCount: queryResult.rowCount,
                 success: true
-            }
+            };
 
         } catch (e) {
-            console.log(e)
-            throw e
+            throw e;
         }
     }
 }
