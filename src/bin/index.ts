@@ -48,7 +48,7 @@ async function bootstrap() {
 
         gateway.HttpServer.NewServer(userRoutes, authRoutes)?.listen(APP_CONFIG.httpServerPort, () => {
             // console.log("server is running", APP_CONFIG.httpServerPort);
-        });
+        })
 
         gateway.Websocket.NewServerOnSamePort(gateway.HttpServer.GetServer()!)
 

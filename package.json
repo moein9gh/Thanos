@@ -20,7 +20,7 @@
     }
   },
   "lint-staged": {
-    "*.ts": "lint-staged"
+    "src/***.ts": "lint-staged"
   },
   "keywords": [],
   "author": "",
