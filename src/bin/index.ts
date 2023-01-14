@@ -42,6 +42,7 @@ async function bootstrap() {
 
         const authRoutes = gateway.AuthRoutes.RegisterRoutes(authHandlers, gateway.Router.NewRouter(), APP_CONFIG);
 
+
         const userRoutes = gateway.UserRoutes.RegisterRoutes(userHandlers, userRouter, APP_CONFIG);
 
 
