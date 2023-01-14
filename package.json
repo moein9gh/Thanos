@@ -14,13 +14,8 @@
     "lint:fix": "eslint 'src/**/*.ts' --fix",
     "prepare": "husky install"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn lint-staged"
-    }
-  },
   "lint-staged": {
-    "*": "npm run lint:fix"
+    "*": "lint-staged"
   },
   "keywords": [],
   "author": "",
