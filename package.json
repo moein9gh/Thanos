@@ -11,7 +11,8 @@
         "docker:up": "docker-compose -f ./src/docker/dev-docker-compose.yml --env-file ./src/env/.env up --build",
         "docker:down": "docker-compose -f ./src/docker/dev-docker-compose.yml --env-file ./src/env/.env down",
         "lint": "eslint 'src/**/*.ts'",
-        "lint:fix": "eslint 'src/**/*.ts' --fix"
+        "lint:fix": "eslint 'src/**/*.ts' --fix",
+        "prepare": "husky install"
     },
     "husky": {
         "hooks": {
