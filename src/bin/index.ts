@@ -52,6 +52,7 @@ async function bootstrap() {
 
         gateway.Websocket.NewServerOnSamePort(gateway.HttpServer.GetServer()!);
 
+
         gateway.GrpcServer.NewServer()
 
     } catch (e) {
