@@ -19,6 +19,7 @@ export class Logger {
 
             if (error) {
                 log.prefixStyle = {fg: "red"};
+
                 log.error(prefix, `${message} ${data ? JSON.stringify(data) : ""}`);
             } else {
                 log.info(prefix, `${message} ${data ? JSON.stringify(data) : ""}`);
