@@ -1,3 +1,5 @@
+import {Options} from "swagger-jsdoc";
+
 export type CONFIG = {
     host:string,
     port:number,
@@ -16,4 +18,5 @@ export type CONFIG = {
     postgresPassword:string,
     jwtSecretKey:string,
     debugMode:boolean,
+    jsDocOptions:Options,
 }

@@ -4,17 +4,19 @@ import cors from "cors";
 import {APP_CONFIG, CONFIG} from "@config";
 import expressWinston from "express-winston";
 import winston from "winston";
-import { graphqlHTTP } from "express-graphql";
+import {graphqlHTTP} from "express-graphql";
 import {buildSchema} from "graphql";
 import {Router} from "@gateway";
 import {Logger} from "@log";
+import swaggerUi from "swagger-ui-express";
+import {DocGenerator} from "../../../doc";
+
 
 export class Middlewares {
 
-    static Register(router: Router,cfg:CONFIG): Router {
+    static Register(router: Router, cfg: CONFIG, docGenerator: DocGenerator): Router {
         const expressRouter = router.getRouter();
         expressRouter.use(express.json());
-
         expressRouter.use(expressWinston.logger({
             transports: [
                 new winston.transports.Console()
@@ -50,7 +52,7 @@ export class Middlewares {
 
         expressRouter.use(express.static(APP_CONFIG.staticFolder));
 
-        expressRouter.use(helmet({ contentSecurityPolicy: (process.env.NODE_ENV === "production") ? undefined : false }));
+        expressRouter.use(helmet({contentSecurityPolicy: (process.env.NODE_ENV === "production") ? undefined : false}));
         expressRouter.use(cors({
             methods: "*",
             origin: "*"
@@ -61,6 +63,8 @@ export class Middlewares {
             rootValue: root,
             graphiql: true,
         }));
+
+        expressRouter.use("/docs", swaggerUi.serve, swaggerUi.setup(docGenerator.doc));
 
         return router;
     }

@@ -12,6 +12,7 @@ import * as repository from "@repository";
 import {AuthInteractor, UserInteractor} from "@interactor";
 import {APP_CONFIG} from "@config";
 import {Logger} from "@log";
+import {DocGenerator} from "../doc";
 
 
 
@@ -24,11 +25,15 @@ async function bootstrap() {
 
     try {
 
+        const docGenerator = new DocGenerator(APP_CONFIG);
+
         const postgres = await store.Postgres.setup(APP_CONFIG);
 
         let userRouter = gateway.Router.NewRouter()!;
 
-        gateway.Middlewares.Register(userRouter, APP_CONFIG);
+        let rootRouter = gateway.Router.NewRouter()!;
+
+        gateway.Middlewares.Register(rootRouter, APP_CONFIG,docGenerator);
 
         const pgUserRepository = repository.PgUserRepository.Setup(postgres, APP_CONFIG);
 
@@ -44,11 +49,9 @@ async function bootstrap() {
 
         const authRoutes = gateway.AuthRoutes.RegisterRoutes(authHandlers, gateway.Router.NewRouter(), APP_CONFIG);
 
-
         const userRoutes = gateway.UserRoutes.RegisterRoutes(userHandlers, userRouter, APP_CONFIG);
 
-
-        gateway.HttpServer.NewServer(userRoutes, authRoutes)?.listen(APP_CONFIG.httpServerPort, () => {
+        gateway.HttpServer.NewServer(userRoutes, authRoutes,rootRouter)?.listen(APP_CONFIG.httpServerPort, () => {
             new Logger("HTTP_SERVER", null, "server is running " + APP_CONFIG.httpServerPort);
         });
 

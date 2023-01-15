@@ -20,4 +20,35 @@ export const APP_CONFIG: CONFIG = {
     postgresDbName: (process.env.PG_DB || "myCollection").toLowerCase(),
     jwtSecretKey: process.env.JWT_SECRET_KEY || "veryStrongKey:)",
     debugMode: Boolean(process.env.DEBUG_MODE) || false,
+    jsDocOptions: {
+        definition: {
+            components: {
+                /* ... */
+                securitySchemes: {
+                    ApiKeyAuth: {
+                        type: "apiKey",
+                        in: "header",
+                        name: "pal-auth",
+                    },
+                },
+            },
+            openapi: "3.0.0",
+            security: [
+                {
+                    ApiKeyAuth: [],
+                },
+            ],
+            info: {
+                title: "Library API",
+                version: "1.0.0",
+                description: "A simple Express Library API",
+            },
+            servers: [
+                {
+                    url: "http://localhost:3000",
+                }
+            ],
+        },
+        apis: [path.resolve("src", "doc","swagger","*.js")],
+    }
 };

@@ -8,8 +8,7 @@ export class AuthRoutes {
         const expressRouter = router.getRouter();
 
         expressRouter.get<string, any, string>("/", authController.verifyToken);
-
-        expressRouter.post("/sms-verification", authController.smsVerification);
+        expressRouter.get("/sms-verification", authController.smsVerification);
 
         return router;
     }

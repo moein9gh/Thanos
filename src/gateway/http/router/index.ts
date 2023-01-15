@@ -14,7 +14,5 @@ export class Router {
         return (new Router(router));
     }
 
-    getRouter(): express.Router {
-        return this.router;
-    }
+    getRouter = (): express.Router => this.router;
 }
