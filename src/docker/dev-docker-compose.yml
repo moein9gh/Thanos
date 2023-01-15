@@ -24,6 +24,7 @@ services:
       PG_USERNAME: ${PG_USERNAME:-postgres}
       PG_PASSWORD: ${PG_PASSWORD:-changeme}
       PG_DB: ${PG_HOST:-myPostgresDb}
+      DEBUG_MODE: ${DEBUG_MODE:-false}
     volumes:
       - ../..:/opt/web
       - /otp/web/node_modules

@@ -1,4 +1,5 @@
 import {APP_CONFIG} from "@config";
+import {Logger} from "../../../log";
 
 const grpc = require("@grpc/grpc-js");
 const PROTO_PATH = process.cwd()+"/src/protos/news.proto";
@@ -24,7 +25,7 @@ export class GrpcServer{
 
         server.addService(newsProto.NewsService.service, {
             getAllNews: (_, callback) => {
-                // console.log("received")
+                new Logger("GRPC_SERVER", null, "received");
                 callback(null, news);
             }, 
         });
@@ -34,10 +35,10 @@ export class GrpcServer{
             grpc.ServerCredentials.createInsecure(),
             (error, port) => {
                 if(!error){
-                    // console.log("grpc server running on "+APP_CONFIG.grpcServerPort);
+                    new Logger("GRPC_SERVER", null, "grpc server running on "+APP_CONFIG.grpcServerPort);
                     server.start();
                 }else{
-                    // console.log("grpc server error",error);
+                    new Logger("GRPC_SERVER", error, "grpc server error");
                 }
             }
         );

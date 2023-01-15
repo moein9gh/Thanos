@@ -4,12 +4,14 @@
 
 import * as moduleAlias from "module-alias";
 moduleAlias.default();
+
 import * as dotenv from "dotenv";
 import * as store from "@store";
 import * as gateway from "@gateway";
 import * as repository from "@repository";
 import {AuthInteractor, UserInteractor} from "@interactor";
 import {APP_CONFIG} from "@config";
+import {Logger} from "../log";
 
 
 
@@ -47,7 +49,7 @@ async function bootstrap() {
 
 
         gateway.HttpServer.NewServer(userRoutes, authRoutes)?.listen(APP_CONFIG.httpServerPort, () => {
-            // console.log("server is running", APP_CONFIG.httpServerPort);
+            new Logger("HTTP_SERVER", null, "server is running " + APP_CONFIG.httpServerPort);
         });
 
         gateway.Websocket.NewServerOnSamePort(gateway.HttpServer.GetServer()!);

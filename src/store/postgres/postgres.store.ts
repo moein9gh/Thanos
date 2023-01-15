@@ -1,6 +1,7 @@
 import {CONFIG} from "@config";
 import {Client} from "pg";
 import {Migrator} from "@migrations";
+import {Logger} from "../../log";
 
 export class Postgres {
 
@@ -26,7 +27,7 @@ export class Postgres {
             // await migrator.dropTables()
             await migrator.execMigrations();
 
-            // console.log('Connected successfully to postgres database');
+            new Logger("STORE_POSTGRES", null, "Connected successfully to postgres database");
 
             return pgInstance;
 

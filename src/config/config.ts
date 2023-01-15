@@ -1,6 +1,7 @@
 import {CONFIG} from "./type";
 import path from "path";
 
+
 export const APP_CONFIG: CONFIG = {
     host: process.env.MONGO_HOST || "mongo",
     port: process.env.MONGO_CONTAINER_PORT || 27017,
@@ -18,4 +19,5 @@ export const APP_CONFIG: CONFIG = {
     postgresPassword: process.env.PG_PASSWORD || "changeme",
     postgresDbName: process.env.PG_HOST || "myCollection",
     jwtSecretKey: process.env.JWT_SECRET_KEY || "veryStrongKey:)",
+    debugMode: Boolean(process.env.DEBUG_MODE) || false,
 };

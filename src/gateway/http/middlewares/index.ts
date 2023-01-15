@@ -7,6 +7,7 @@ import winston from "winston";
 import { graphqlHTTP } from "express-graphql";
 import {buildSchema} from "graphql";
 import {Router} from "@gateway";
+import {Logger} from "../../../log";
 
 export class Middlewares {
 
@@ -45,7 +46,8 @@ export class Middlewares {
         };
 
         expressRouter.use(express.urlencoded({extended: true}));
-        // console.log(`static folder path : ${APP_CONFIG.staticFolder}`);
+        new Logger("HTTP_SERVER", null, `static folder path : ${APP_CONFIG.staticFolder}`);
+
         expressRouter.use(express.static(APP_CONFIG.staticFolder));
 
         expressRouter.use(helmet({ contentSecurityPolicy: (process.env.NODE_ENV === "production") ? undefined : false }));

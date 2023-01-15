@@ -19,6 +19,7 @@ declare global {
             PG_LOCAL_PORT:number
             PG_CONTAINER_PORT:number
             PGADMIN_PORT:number
+            DEBUG_MODE:boolean
         }
     }
 }

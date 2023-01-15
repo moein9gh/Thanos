@@ -15,4 +15,5 @@ export type CONFIG = {
     postgresUsername:string,
     postgresPassword:string,
     jwtSecretKey:string,
+    debugMode:boolean,
 }
