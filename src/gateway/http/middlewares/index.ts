@@ -7,7 +7,7 @@ import winston from "winston";
 import { graphqlHTTP } from "express-graphql";
 import {buildSchema} from "graphql";
 import {Router} from "@gateway";
-import {Logger} from "../../../log";
+import {Logger} from "@log";
 
 export class Middlewares {
 
@@ -23,14 +23,14 @@ export class Middlewares {
                 winston.format.colorize(),
                 winston.format.json()
             ),
-            level: function (req, res, err) {
+            level: function () {
                 return String("info");
             },
             meta: false,
             msg: APP_CONFIG.logFormat,
             expressFormat: true,
             colorize: true,
-            ignoreRoute: function (req, res) {
+            ignoreRoute: function () {
                 return false;
             }
         }));

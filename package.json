@@ -52,8 +52,10 @@
     "@migrations": "dist/migrations/index.js",
     "@utils": "dist/utils/index.js",
     "@ports": "dist/ports/index.js",
+    "@log": "dist/log/index.js",
     "@repository": "dist/repository/index.js",
-    "@types": "dist/types/index.js"
+    "@types": "dist/types/index.js",
+    "@dto": "dist/dto/index.js"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.8.0",

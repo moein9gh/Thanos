@@ -1,5 +1,5 @@
 import {NextFunction, Request, Response} from "express";
-import {SmsVerificationDto} from "../dto";
+import {SmsVerificationDto} from "@dto";
 
 export interface IUserController {
     create(req: Request, res: Response)

@@ -3,7 +3,7 @@ import {WEBSOCKET_EVENTS} from "@types";
 import {APP_CONFIG} from "@config";
 import {onMessage} from "@gateway";
 import http from "http";
-import {Logger} from "../../../log";
+import {Logger} from "@log";
 
 export class Websocket {
     constructor() {

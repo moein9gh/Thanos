@@ -1,6 +1,6 @@
 import * as store from "@store";
 import {CONFIG} from "@config";
-import {IAuthRepository} from "../../ports/authRepository.port";
+import {IAuthRepository} from "@ports";
 
 export class PgAuthRepository implements IAuthRepository {
     constructor(readonly store: store.Postgres, readonly cfg: CONFIG) {

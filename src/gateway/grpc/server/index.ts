@@ -1,5 +1,5 @@
 import {APP_CONFIG} from "@config";
-import {Logger} from "../../../log";
+import {Logger} from "@log";
 
 const grpc = require("@grpc/grpc-js");
 const PROTO_PATH = process.cwd()+"/src/protos/news.proto";
@@ -33,7 +33,7 @@ export class GrpcServer{
         server.bindAsync(
             "127.0.0.1:"+APP_CONFIG.grpcServerPort,
             grpc.ServerCredentials.createInsecure(),
-            (error, port) => {
+            (error) => {
                 if(!error){
                     new Logger("GRPC_SERVER", null, "grpc server running on "+APP_CONFIG.grpcServerPort);
                     server.start();

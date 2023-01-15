@@ -1,8 +1,7 @@
 import * as store from "@store";
 import fs from "fs";
 import path from "path";
-import {Logger} from "../log";
-import {APP_CONFIG} from "@config";
+import {Logger} from "@log";
 
 export class Migrator {
 

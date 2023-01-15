@@ -1,5 +1,5 @@
 import {IAuthController} from "@ports";
-import {Router} from "../router";
+import {Router} from "@gateway";
 import {CONFIG} from "@config";
 
 export class AuthRoutes {

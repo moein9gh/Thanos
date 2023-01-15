@@ -1,6 +1,6 @@
 import {IUserInteractor, IUserRepository} from "@ports";
 import {CONFIG} from "@config";
-import {IAuthRepository} from "../../ports/authRepository.port";
+import {IAuthRepository} from "@ports";
 
 export class UserInteractor implements IUserInteractor {
     constructor(

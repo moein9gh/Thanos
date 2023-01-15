@@ -40,6 +40,8 @@
                     "@utils":["utils/index"],
                     "@interactor":["interactor/index"],
                     "@store":["store/index"],
+                    "@dto":["dto/index"],
+                    "@log":["log/index"],
                     "@ports":["ports/index"],
                     "@repository":["repository/index"],
                     "@root":["."]

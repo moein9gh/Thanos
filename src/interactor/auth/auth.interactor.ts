@@ -1,7 +1,7 @@
 import {IUserRepository} from "@ports";
 import {CONFIG} from "@config";
-import {IAuthInteractor} from "../../ports/interactor.port";
-import {IAuthRepository} from "../../ports/authRepository.port";
+import {IAuthInteractor} from "@ports";
+import {IAuthRepository} from "@ports";
 import {getRandomIntInclusive, sendSMS} from "@utils";
 
 export class AuthInteractor implements IAuthInteractor {
@@ -35,7 +35,7 @@ export class AuthInteractor implements IAuthInteractor {
 
 
                 } else {
-                    throw new Error("invalid exception");
+                    throw new Error("invalid result");
                 }
 
             }

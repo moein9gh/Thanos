@@ -1,7 +1,7 @@
 import {CONFIG} from "@config";
 import {Client} from "pg";
 import {Migrator} from "@migrations";
-import {Logger} from "../../log";
+import {Logger} from "@log";
 
 export class Postgres {
 

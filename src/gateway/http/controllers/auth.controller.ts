@@ -1,9 +1,9 @@
 import {NextFunction, Request, Response} from "express";
 import {CONFIG} from "@config";
 import {getMobiles, messageToClient, num2en} from "@utils";
-import {IAuthInteractor} from "../../../ports/interactor.port";
+import {IAuthInteractor} from "@ports";
 import {IAuthController} from "@ports";
-import {SmsVerificationDto} from "../../../dto";
+import {SmsVerificationDto} from "@dto";
 import {HTTP_STATUS_CODE, HTTP_STATUS_MESSAGE} from "@types";
 
 export class AuthController implements IAuthController {
@@ -19,7 +19,7 @@ export class AuthController implements IAuthController {
 
     }
 
-    smsVerification = async (req: Request<any, any, any, SmsVerificationDto>, res: Response, next: NextFunction) => {
+    smsVerification = async (req: Request<any, any, any, SmsVerificationDto>, res: Response) => {
 
         let phoneNumber = req.query.phoneNumber;
 
