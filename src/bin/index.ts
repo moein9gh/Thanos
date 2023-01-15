@@ -12,7 +12,7 @@ import * as repository from "@repository";
 import {AuthInteractor, UserInteractor} from "@interactor";
 import {APP_CONFIG} from "@config";
 import {Logger} from "@log";
-import {DocGenerator} from "../doc";
+import {DocGenerator} from "@doc";
 
 
 

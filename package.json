@@ -53,6 +53,7 @@
     "@utils": "dist/utils/index.js",
     "@ports": "dist/ports/index.js",
     "@log": "dist/log/index.js",
+    "@doc": "dist/doc/index.js",
     "@repository": "dist/repository/index.js",
     "@types": "dist/types/index.js",
     "@dto": "dist/dto/index.js"

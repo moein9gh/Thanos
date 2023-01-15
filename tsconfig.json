@@ -42,6 +42,7 @@
                     "@store":["store/index"],
                     "@dto":["dto/index"],
                     "@log":["log/index"],
+                    "@doc":["doc/index"],
                     "@ports":["ports/index"],
                     "@repository":["repository/index"],
                     "@root":["."]

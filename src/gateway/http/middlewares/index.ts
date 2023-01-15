@@ -9,7 +9,7 @@ import {buildSchema} from "graphql";
 import {Router} from "@gateway";
 import {Logger} from "@log";
 import swaggerUi from "swagger-ui-express";
-import {DocGenerator} from "../../../doc";
+import {DocGenerator} from "@doc";
 
 
 export class Middlewares {
