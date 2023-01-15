@@ -9,13 +9,20 @@ export class Postgres {
     }
 
     public static async setup(cfg: CONFIG) {
-        try {
 
-            const pgClient = new Client({
+        try {
+            await Migrator.createDatabase(cfg);
+        } catch (e) {
+            new Logger("POSTGRES", e as Error, "error occurred while creating database", e);
+        }
+
+        try {
+            let pgClient = new Client({
                 host: cfg.postgresHost,
                 port: cfg.postgresPort,
                 user: cfg.postgresUsername,
-                password: cfg.postgresPassword
+                password: cfg.postgresPassword,
+                database: cfg.postgresDbName
             });
 
             await pgClient.connect();
@@ -24,7 +31,7 @@ export class Postgres {
 
             const migrator = new Migrator(pgInstance);
 
-            // await migrator.dropTables()
+            // // await migrator.dropTables()
             await migrator.execMigrations();
 
             new Logger("STORE_POSTGRES", null, "Connected successfully to postgres database");
@@ -32,6 +39,7 @@ export class Postgres {
             return pgInstance;
 
         } catch (e) {
+            new Logger("POSTGRES", e as Error, "error occurred while creating database instance", e);
             throw e;
         }
     }

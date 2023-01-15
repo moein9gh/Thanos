@@ -17,7 +17,7 @@ export const APP_CONFIG: CONFIG = {
     postgresPort: process.env.PG_CONTAINER_PORT || 5432,
     postgresUsername: process.env.PG_USERNAME || "postgres",
     postgresPassword: process.env.PG_PASSWORD || "changeme",
-    postgresDbName: process.env.PG_HOST || "myCollection",
+    postgresDbName: (process.env.PG_DB || "myCollection").toLowerCase(),
     jwtSecretKey: process.env.JWT_SECRET_KEY || "veryStrongKey:)",
     debugMode: Boolean(process.env.DEBUG_MODE) || false,
 };

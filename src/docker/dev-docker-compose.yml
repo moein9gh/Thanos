@@ -23,7 +23,7 @@ services:
       PG_CONTAINER_PORT: ${PG_CONTAINER_PORT:-5432}
       PG_USERNAME: ${PG_USERNAME:-postgres}
       PG_PASSWORD: ${PG_PASSWORD:-changeme}
-      PG_DB: ${PG_HOST:-myPostgresDb}
+      PG_DB: ${PG_DB:-mypostgresdb}
       DEBUG_MODE: ${DEBUG_MODE:-false}
     volumes:
       - ../..:/opt/web
