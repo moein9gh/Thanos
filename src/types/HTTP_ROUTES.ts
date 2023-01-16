@@ -1,4 +1,4 @@
-export enum HTTP_ROUTES{
-    ROOT="/",
-    SAY_HI="/sayHi",
+export enum HTTP_ROUTES {
+  ROOT = "/",
+  SAY_HI = "/sayHi"
 }

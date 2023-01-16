@@ -4,4 +4,3 @@ export * from "./userRepository.port";
 export * from "./authRepository.port";
 export * from "./store.port";
 export * from "./interactor.port";
-

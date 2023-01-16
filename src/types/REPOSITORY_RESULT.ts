@@ -1,5 +1,5 @@
 export type REPOSITORY_RESULT<T> = {
-    rows: T[]
-    rowCount: number
-    success:Boolean
-}
+  rows: T[];
+  rowCount: number;
+  success: Boolean;
+};

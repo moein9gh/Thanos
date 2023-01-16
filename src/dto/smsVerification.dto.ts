@@ -1,3 +1,3 @@
 export type SmsVerificationDto = {
-    phoneNumber: string
-}
+  phoneNumber: string;
+};

@@ -1,12 +1,12 @@
-import {REPOSITORY_RESULT} from "@types";
-import {UserEntity} from "@entity";
+import { REPOSITORY_RESULT } from "@types";
+import { UserEntity } from "@entity";
 
 export interface IBaseRepository<T> {
-    insertOne(): any
+  insertOne(): any;
 
-    updateOne(id: string, userEntity: UserEntity): Promise<REPOSITORY_RESULT<T>>
+  updateOne(id: string, userEntity: UserEntity): Promise<REPOSITORY_RESULT<T>>;
 
-    findOne(): any
+  findOne(): any;
 
-    deleteOne(): any
+  deleteOne(): any;
 }

@@ -1,6 +1,4 @@
-import {IBaseRepository} from "./repository.port";
-import {User} from "@model";
+import { IBaseRepository } from "./repository.port";
+import { User } from "@model";
 
-export interface IAuthRepository extends IBaseRepository<User>{
-
-}
+export interface IAuthRepository extends IBaseRepository<User> {}

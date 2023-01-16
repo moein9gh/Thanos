@@ -1,35 +1,31 @@
 import * as store from "@store";
-import {CONFIG} from "@config";
-import {IAuthRepository} from "@ports";
+import { CONFIG } from "@config";
+import { IAuthRepository } from "@ports";
 
 export class PgAuthRepository implements IAuthRepository {
-    constructor(readonly store: store.Postgres, readonly cfg: CONFIG) {
-    }
+  constructor(readonly store: store.Postgres, readonly cfg: CONFIG) {}
 
-    static Setup(db: store.Postgres, cfg: CONFIG): PgAuthRepository {
-        return new PgAuthRepository(db, cfg);
-    }
+  static Setup(db: store.Postgres, cfg: CONFIG): PgAuthRepository {
+    return new PgAuthRepository(db, cfg);
+  }
 
-    async create(): Promise<any> {
-        const values = ["moein", "test", "test"];
-        return this.store.client.query("INSERT INTO users(username, password, phone_number) VALUES($1, $2, $3) RETURNING *", values);
-    }
+  async create(): Promise<any> {
+    const values = ["moein", "test", "test"];
+    return this.store.client.query(
+      "INSERT INTO users(username, password, phone_number) VALUES($1, $2, $3) RETURNING *",
+      values
+    );
+  }
 
-    read(): any {
-    }
+  read(): any {}
 
-    update(): any {
-    }
+  update(): any {}
 
-    deleteOne(): any {
-    }
+  deleteOne(): any {}
 
-    findOne(): any {
-    }
+  findOne(): any {}
 
-    insertOne(): any {
-    }
+  insertOne(): any {}
 
-    updateOne(): any {
-    }
+  updateOne(): any {}
 }

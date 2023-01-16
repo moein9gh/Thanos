@@ -1,4 +1,4 @@
 export const EVENTS = {
-    PING: "PING",
-    PONG: "PONG"
+  PING: "PING",
+  PONG: "PONG"
 };

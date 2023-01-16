@@ -1,7 +1,7 @@
 export interface IUserInteractor {
-    create(): any
+  create(): any;
 }
 
 export interface IAuthInteractor {
-    smsVerification(phoneNumber: string): any
+  smsVerification(phoneNumber: string): any;
 }

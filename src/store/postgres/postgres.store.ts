@@ -1,47 +1,54 @@
-import {CONFIG} from "@config";
-import {Client} from "pg";
-import {Migrator} from "@migrations";
-import {Logger} from "@log";
+import { CONFIG } from "@config";
+import { Client } from "pg";
+import { Migrator } from "@migrations";
+import { Logger } from "@log";
 
 export class Postgres {
+  constructor(
+    readonly host: string,
+    readonly port: number,
+    readonly username: string,
+    readonly password: string,
+    readonly client: Client
+  ) {}
 
-    constructor(readonly host: string, readonly port: number, readonly username: string, readonly password: string, readonly client: Client) {
+  public static async setup(cfg: CONFIG) {
+    try {
+      await Migrator.createDatabase(cfg);
+    } catch (e) {
+      new Logger("POSTGRES", e as Error, "error occurred while creating database", e);
     }
 
-    public static async setup(cfg: CONFIG) {
+    try {
+      let pgClient = new Client({
+        host: cfg.postgresHost,
+        port: cfg.postgresPort,
+        user: cfg.postgresUsername,
+        password: cfg.postgresPassword,
+        database: cfg.postgresDbName
+      });
 
-        try {
-            await Migrator.createDatabase(cfg);
-        } catch (e) {
-            new Logger("POSTGRES", e as Error, "error occurred while creating database", e);
-        }
+      await pgClient.connect();
 
-        try {
-            let pgClient = new Client({
-                host: cfg.postgresHost,
-                port: cfg.postgresPort,
-                user: cfg.postgresUsername,
-                password: cfg.postgresPassword,
-                database: cfg.postgresDbName
-            });
+      const pgInstance = new Postgres(
+        cfg.postgresHost,
+        cfg.postgresPort,
+        cfg.postgresUsername,
+        cfg.password,
+        pgClient
+      );
 
-            await pgClient.connect();
+      const migrator = new Migrator(pgInstance);
 
-            const pgInstance = new Postgres(cfg.postgresHost, cfg.postgresPort, cfg.postgresUsername, cfg.password, pgClient);
+      // // await migrator.dropTables()
+      await migrator.execMigrations();
 
-            const migrator = new Migrator(pgInstance);
+      new Logger("STORE_POSTGRES", null, "Connected successfully to postgres database");
 
-            // // await migrator.dropTables()
-            await migrator.execMigrations();
-
-            new Logger("STORE_POSTGRES", null, "Connected successfully to postgres database");
-
-            return pgInstance;
-
-        } catch (e) {
-            new Logger("POSTGRES", e as Error, "error occurred while creating database instance", e);
-            throw e;
-        }
+      return pgInstance;
+    } catch (e) {
+      new Logger("POSTGRES", e as Error, "error occurred while creating database instance", e);
+      throw e;
     }
+  }
 }
-
