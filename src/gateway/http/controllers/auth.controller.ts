@@ -32,13 +32,11 @@ export class AuthController implements IAuthController {
       phoneNumber = num2en(phoneNumber);
     } catch (e) {
       if (e instanceof TypeError) {
-        return res
-          .status(HTTP_STATUS_CODE.UNPROCESSABLE_ENTITY)
-          .json(
-            messageToClient(false, e.message, HTTP_STATUS_MESSAGE.UNPROCESSABLE_ENTITY, {
-              phoneNumber
-            })
-          );
+        return res.status(HTTP_STATUS_CODE.UNPROCESSABLE_ENTITY).json(
+          messageToClient(false, e.message, HTTP_STATUS_MESSAGE.UNPROCESSABLE_ENTITY, {
+            phoneNumber
+          })
+        );
       }
     }
 
@@ -47,13 +45,11 @@ export class AuthController implements IAuthController {
     try {
       validatedNumber = getMobiles(phoneNumber);
     } catch (e) {
-      return res
-        .status(HTTP_STATUS_CODE.UNPROCESSABLE_ENTITY)
-        .json(
-          messageToClient(false, (e as Error).message, HTTP_STATUS_MESSAGE.UNPROCESSABLE_ENTITY, {
-            phoneNumber
-          })
-        );
+      return res.status(HTTP_STATUS_CODE.UNPROCESSABLE_ENTITY).json(
+        messageToClient(false, (e as Error).message, HTTP_STATUS_MESSAGE.UNPROCESSABLE_ENTITY, {
+          phoneNumber
+        })
+      );
     }
 
     if (!validatedNumber) {
