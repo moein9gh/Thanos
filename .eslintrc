@@ -4,6 +4,7 @@
   "plugins": [
   ],
   "extends": [
+    "prettier"
   ],
   "rules": {
     "no-console": "error",
