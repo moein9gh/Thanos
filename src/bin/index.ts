@@ -20,7 +20,6 @@ async function bootstrap() {
   try {
     const docGenerator = new DocGenerator(APP_CONFIG);
 
-
     const postgres = await store.Postgres.setup(APP_CONFIG);
 
     let userRouter = gateway.Router.NewRouter()!;
