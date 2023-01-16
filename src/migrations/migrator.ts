@@ -33,13 +33,13 @@ export class Migrator {
                 host: cfg.postgresHost,
                 port: cfg.postgresPort,
                 user: cfg.postgresUsername,
-                password: cfg.postgresPassword,
-                database: cfg.postgresDbName
+                password: cfg.postgresPassword
             });
 
             await client.connect();
 
             const res = await client.query(`SELECT datname FROM pg_database WHERE datname='${cfg.postgresDbName}'`);
+
             if (!res.rows.length) {
                 await client.query(`CREATE DATABASE ${cfg.postgresDbName} WITH ENCODING 'UTF8';`);
                 new Logger("MIGRATOR", null, `${cfg.postgresDbName} database created.`);
