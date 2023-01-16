@@ -12,6 +12,7 @@ import { APP_CONFIG } from "@config";
 import { Logger } from "@log";
 import { DocGenerator } from "@doc";
 
+
 dotenv.config({
   path: process.cwd() + "/src/env/.env"
 });
