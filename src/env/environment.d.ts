@@ -1,6 +1,7 @@
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
+      CLUSTER_MODE: string;
       MONGO_USERNAME: string;
       MONGO_PASSWORD: string;
       MONGO_DB: string;
@@ -20,7 +21,7 @@ declare global {
       PG_LOCAL_PORT: number;
       PG_CONTAINER_PORT: number;
       PGADMIN_PORT: number;
-      DEBUG_MODE: boolean;
+      DEBUG_MODE: string;
     }
   }
 }

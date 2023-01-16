@@ -25,6 +25,7 @@ services:
       PG_PASSWORD: ${PG_PASSWORD:-changeme}
       PG_DB: ${PG_DB:-mypostgresdb}
       DEBUG_MODE: ${DEBUG_MODE:-false}
+      CLUSTER_MODE: ${CLUSTER_MODE:-false}
     volumes:
       - ../..:/opt/web
       - /otp/web/node_modules

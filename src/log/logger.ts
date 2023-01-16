@@ -23,10 +23,16 @@ export class Logger {
       if (error) {
         log.prefixStyle = { fg: "red" };
 
-        log.error(prefix, `${message} ${data ? JSON.stringify(data) : ""}`);
+        log.error(
+          prefix,
+          `workerId : ${process.pid} / ${message} ${data ? JSON.stringify(data) : ""}`
+        );
       } else {
         log.prefixStyle = { fg: "green" };
-        log.info(prefix, `${message} ${data ? JSON.stringify(data) : ""}`);
+        log.info(
+          prefix,
+          `workerId : ${process.pid} / ${message} ${data ? JSON.stringify(data) : ""}`
+        );
       }
     }
   }

@@ -2,6 +2,7 @@ import { CONFIG } from "./type";
 import path from "path";
 
 export const APP_CONFIG: CONFIG = {
+  clusterMode: process.env.CLUSTER_MODE === "true",
   host: process.env.MONGO_HOST || "mongo",
   port: process.env.MONGO_CONTAINER_PORT || 27017,
   username: process.env.MONGO_USERNAME || "root",
@@ -18,7 +19,7 @@ export const APP_CONFIG: CONFIG = {
   postgresPassword: process.env.PG_PASSWORD || "changeme",
   postgresDbName: (process.env.PG_DB || "myCollection").toLowerCase(),
   jwtSecretKey: process.env.JWT_SECRET_KEY || "veryStrongKey:)",
-  debugMode: Boolean(process.env.DEBUG_MODE) || false,
+  debugMode: process.env.DEBUG_MODE === "true",
   jsDocOptions: {
     definition: {
       components: {

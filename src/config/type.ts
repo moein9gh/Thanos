@@ -19,4 +19,5 @@ export type CONFIG = {
   jwtSecretKey: string;
   debugMode: boolean;
   jsDocOptions: Options;
+  clusterMode: boolean;
 };
