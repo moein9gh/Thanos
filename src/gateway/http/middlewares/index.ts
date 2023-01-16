@@ -4,8 +4,6 @@ import cors from "cors";
 import {APP_CONFIG, CONFIG} from "@config";
 import expressWinston from "express-winston";
 import winston from "winston";
-import {graphqlHTTP} from "express-graphql";
-import {buildSchema} from "graphql";
 import {Router} from "@gateway";
 import {Logger} from "@log";
 import swaggerUi from "swagger-ui-express";
@@ -37,16 +35,6 @@ export class Middlewares {
             }
         }));
 
-        const schema = buildSchema(`
-            type Query {
-                hello: String
-            }
-        `);
-
-        const root = {
-            hello: () => "Hello world!",
-        };
-
         expressRouter.use(express.urlencoded({extended: true}));
         new Logger("HTTP_SERVER", null, `static folder path : ${APP_CONFIG.staticFolder}`);
 
@@ -56,12 +44,6 @@ export class Middlewares {
         expressRouter.use(cors({
             methods: "*",
             origin: "*"
-        }));
-
-        expressRouter.use("/graphql", graphqlHTTP({
-            schema: schema,
-            rootValue: root,
-            graphiql: true,
         }));
 
         expressRouter.use("/docs", swaggerUi.serve, swaggerUi.setup(docGenerator.doc));

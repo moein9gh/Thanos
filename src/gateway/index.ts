@@ -7,4 +7,4 @@ export * from "./websocket/server";
 export * from "./websocket/events";
 export * from "./websocket/handlers";
 export * from "./grpc/server";
-// export * from "./grpc/protos"
+export * from "./graphql/server";
