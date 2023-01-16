@@ -2,11 +2,13 @@
   "root": true,
   "parser": "@typescript-eslint/parser",
   "plugins": [
+    "prettier"
   ],
   "extends": [
     "prettier"
   ],
   "rules": {
+//    "prettier/prettier": 2,
     "no-console": "error",
     "semi": "error",
     "quotes": ["error", "double"],

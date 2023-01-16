@@ -12,7 +12,6 @@ import { APP_CONFIG } from "@config";
 import { Logger } from "@log";
 import { DocGenerator } from "@doc";
 
-
 dotenv.config({
   path: process.cwd() + "/src/env/.env"
 });
@@ -20,6 +19,7 @@ dotenv.config({
 async function bootstrap() {
   try {
     const docGenerator = new DocGenerator(APP_CONFIG);
+
 
     const postgres = await store.Postgres.setup(APP_CONFIG);
 
