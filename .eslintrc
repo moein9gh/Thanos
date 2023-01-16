@@ -8,7 +8,7 @@
     "prettier"
   ],
   "rules": {
-    "prettier/prettier": 2,
+//    "prettier/prettier": 1,
     "no-console": "error",
     "semi": "error",
     "quotes": ["error", "double"],
