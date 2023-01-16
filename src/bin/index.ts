@@ -30,7 +30,6 @@ async function bootstrap() {
 
     gateway.GraphQLServer.NewServer(rootRouter);
 
-
     const pgUserRepository = repository.PgUserRepository.Setup(postgres, APP_CONFIG);
 
     const pgAuthRepository = repository.PgAuthRepository.Setup(postgres, APP_CONFIG);
