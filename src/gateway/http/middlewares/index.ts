@@ -8,11 +8,21 @@ import { Router } from "@gateway";
 import { Logger } from "@log";
 import swaggerUi from "swagger-ui-express";
 import { DocGenerator } from "@doc";
+const promMid = require("express-prometheus-middleware");
 
 export class Middlewares {
   static Register(router: Router, cfg: CONFIG, docGenerator: DocGenerator): Router {
     const expressRouter = router.getRouter();
     expressRouter.use(express.json());
+    expressRouter.use(
+      promMid({
+        metricsPath: "/metrics",
+        collectDefaultMetrics: true,
+        requestDurationBuckets: [0.1, 0.5, 1, 1.5],
+        requestLengthBuckets: [512, 1024, 5120, 10240, 51200, 102400],
+        responseLengthBuckets: [512, 1024, 5120, 10240, 51200, 102400]
+      })
+    );
     expressRouter.use(
       expressWinston.logger({
         transports: [new winston.transports.Console()],

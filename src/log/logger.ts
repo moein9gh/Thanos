@@ -3,12 +3,12 @@ import { APP_CONFIG } from "@config";
 import fs from "fs";
 import path from "path";
 
-const access = fs.createWriteStream(path.resolve("src", "log", "access.log"), {
-    flags: "a"
-  }),
-  error = fs.createWriteStream(path.resolve("src", "log", "access.log"), {
-    flags: "a"
-  });
+// const access = fs.createWriteStream(path.resolve("src", "log", "access.log"), {
+//     flags: "a"
+//   }),
+//   error = fs.createWriteStream(path.resolve("src", "log", "access.log"), {
+//     flags: "a"
+//   });
 
 export class Logger {
   constructor(prefix: string, error: Error | null, message: string, data: {} | null = null) {

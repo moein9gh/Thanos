@@ -1,9 +1,10 @@
+import "./pathResolver";
+// import "./tracer";
 import cluster from "cluster";
 import { bootstrap } from "./serve";
 import os from "os";
 import { Logger } from "@log";
 import { APP_CONFIG } from "@config";
-
 const totalCPUs = os.cpus().length;
 
 if (APP_CONFIG.clusterMode) {

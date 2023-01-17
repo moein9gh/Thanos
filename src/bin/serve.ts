@@ -2,7 +2,6 @@
     resolve default defined paths in package.json
 */
 
-import "./pathResolver";
 import * as dotenv from "dotenv";
 import * as store from "@store";
 import * as gateway from "@gateway";
