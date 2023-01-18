@@ -1,7 +1,11 @@
 {
   "name": "clean-ts",
   "version": "1.0.0",
-  "description": "",
+  "homepage": "https://gitlab.com/moein9gh/base",
+  "repository": {
+    "url": "https://gitlab.com/moein9gh/base"
+  },
+  "description": "nodejs app based on clean-arch",
   "main": "./dist/bin/index.js",
   "scripts": {
     "build": "rimraf ./dist && tsc -p tsconfig-build.json",
