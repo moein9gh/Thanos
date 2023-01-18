@@ -19,14 +19,16 @@ export class AuthController implements IAuthController {
 
     try {
       if (!phoneNumber) {
-        return res.send(
-          messageToClient(
-            false,
-            "phoneNumber is required",
-            HTTP_STATUS_MESSAGE.UNPROCESSABLE_ENTITY,
-            { phoneNumber }
-          )
-        );
+        return res
+          .status(HTTP_STATUS_CODE.UNPROCESSABLE_ENTITY)
+          .send(
+            messageToClient(
+              false,
+              "phoneNumber is required",
+              HTTP_STATUS_MESSAGE.UNPROCESSABLE_ENTITY,
+              { phoneNumber }
+            )
+          );
       }
 
       phoneNumber = num2en(phoneNumber);
@@ -68,7 +70,7 @@ export class AuthController implements IAuthController {
     await this.authInteractor.smsVerification(validatedNumber);
 
     return res.status(HTTP_STATUS_CODE.CREATED).json(
-      messageToClient(false, null, HTTP_STATUS_MESSAGE.CREATED, {
+      messageToClient(true, null, HTTP_STATUS_MESSAGE.CREATED, {
         phoneNumber
       })
     );
