@@ -1,4 +1,4 @@
-import { IAuthController, IUserController } from "@ports";
+import { IUserController } from "@ports";
 import { Router } from "@gateway";
 import { CONFIG } from "@config";
 import { inject, injectable } from "inversify";

@@ -1,4 +1,4 @@
-import { IAuthRepository, IUserController, IUserInteractor, IUserRepository } from "@ports";
+import { IUserController, IUserInteractor } from "@ports";
 import { NextFunction, Request, Response } from "express";
 import { CONFIG } from "@config";
 import { inject, injectable } from "inversify";

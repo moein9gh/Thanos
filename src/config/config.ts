@@ -1,6 +1,5 @@
 import { CONFIG } from "./type";
 import path from "path";
-import { injectable } from "inversify";
 
 export const APP_CONFIG: CONFIG = {
   clusterMode: process.env.CLUSTER_MODE === "true",

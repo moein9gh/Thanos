@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { CONFIG } from "@config";
 import { getMobiles, messageToClient, num2en } from "@utils";
-import { IAuthController, IAuthInteractor, IUserInteractor } from "@ports";
+import { IAuthController, IAuthInteractor } from "@ports";
 import { SmsVerificationDto } from "@dto";
 import { HTTP_STATUS_CODE, HTTP_STATUS_MESSAGE, TYPES } from "@types";
 import { inject, injectable } from "inversify";

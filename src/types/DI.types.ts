@@ -1,6 +1,3 @@
-import { UserInteractor } from "@interactor";
-import { GraphQLServer, HttpServer, Middlewares } from "@gateway";
-
 export const TYPES = {
   APP_CONFIG: Symbol.for("APP_CONFIG"),
   DocGenerator: Symbol.for("DocGenerator"),
