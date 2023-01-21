@@ -5,10 +5,14 @@ import { Client } from "pg";
 import { CONFIG } from "@config";
 import { Postgres } from "@store";
 import { TYPES } from "@types";
-import { inject } from "inversify";
+import { inject, injectable } from "inversify";
 
+@injectable()
 export class Migrator {
-  constructor(@inject(TYPES.Postgres) private store: Postgres) {}
+  constructor(
+    @inject(TYPES.Postgres) private store: Postgres,
+    @inject(TYPES.APP_CONFIG) private cfg: CONFIG
+  ) {}
 
   async execMigrations() {
     const fileNames = fs
@@ -27,29 +31,29 @@ export class Migrator {
     new Logger("MIGRATOR", null, "all tables dropped");
   }
 
-  static async createDatabase(cfg: CONFIG) {
+  async createDatabase() {
     try {
       const client = new Client({
-        host: cfg.postgresHost,
-        port: cfg.postgresPort,
-        user: cfg.postgresUsername,
-        password: cfg.postgresPassword
+        host: this.cfg.postgresHost,
+        port: this.cfg.postgresPort,
+        user: this.cfg.postgresUsername,
+        password: this.cfg.postgresPassword
       });
 
       await client.connect();
 
       const res = await client.query(
-        `SELECT datname FROM pg_database WHERE datname='${cfg.postgresDbName}'`
+        `SELECT datname FROM pg_database WHERE datname='${this.cfg.postgresDbName}'`
       );
 
       if (!res.rows.length) {
-        await client.query(`CREATE DATABASE ${cfg.postgresDbName} WITH ENCODING 'UTF8';`);
-        new Logger("MIGRATOR", null, `${cfg.postgresDbName} database created.`);
+        await client.query(`CREATE DATABASE ${this.cfg.postgresDbName} WITH ENCODING 'UTF8';`);
+        new Logger("MIGRATOR", null, `${this.cfg.postgresDbName} database created.`);
       } else {
-        new Logger("MIGRATOR", null, `${cfg.postgresDbName} database already exist.`);
+        new Logger("MIGRATOR", null, `${this.cfg.postgresDbName} database already exist.`);
       }
     } catch (e) {
-      new Logger("MIGRATOR", e as Error, `${cfg.postgresDbName} database already exist.`);
+      new Logger("MIGRATOR", e as Error, `${this.cfg.postgresDbName} database already exist.`);
     }
   }
 }

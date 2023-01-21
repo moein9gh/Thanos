@@ -1,12 +1,17 @@
 import { APP_CONFIG } from "@config";
 import { Logger } from "@log";
+import { injectable } from "inversify";
+import { Server } from "@grpc/grpc-js";
 
 const grpc = require("@grpc/grpc-js");
 const PROTO_PATH = process.cwd() + "/src/protos/news.proto";
 const protoLoader = require("@grpc/proto-loader");
 
+@injectable()
 export class GrpcServer {
-  static NewServer() {
+  server: Server;
+
+  constructor() {
     const options = {
       keepCase: true,
       longs: String,
@@ -21,6 +26,8 @@ export class GrpcServer {
 
     const server = new grpc.Server();
 
+    this.server = server;
+
     let news = [];
 
     server.addService(newsProto.NewsService.service, {
@@ -29,18 +36,20 @@ export class GrpcServer {
         callback(null, news);
       }
     });
+  }
 
-    server.bindAsync(
+  listen = () => {
+    this.server.bindAsync(
       "127.0.0.1:" + APP_CONFIG.grpcServerPort,
       grpc.ServerCredentials.createInsecure(),
       (error) => {
         if (!error) {
           new Logger("GRPC_SERVER", null, "grpc server running on " + APP_CONFIG.grpcServerPort);
-          server.start();
+          this.server.start();
         } else {
           new Logger("GRPC_SERVER", error, "grpc server error");
         }
       }
     );
-  }
+  };
 }

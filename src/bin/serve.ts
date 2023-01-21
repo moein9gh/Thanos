@@ -3,10 +3,7 @@
 */
 
 import * as dotenv from "dotenv";
-import { Postgres } from "@store";
-import * as gateway from "@gateway";
-import { HttpServer, Router } from "@gateway";
-import { CONFIG } from "@config";
+import { GraphQLServer, GrpcServer, HttpServer, Websocket } from "@gateway";
 import { Logger } from "@log";
 import { DI } from "@DI";
 import { TYPES } from "@types";
@@ -18,23 +15,21 @@ dotenv.config({
 
 export async function bootstrap() {
   try {
-    await Migrator.createDatabase(DI.get<CONFIG>(TYPES.APP_CONFIG));
+    await DI.get<Migrator>(TYPES.Migrator).createDatabase();
   } catch (e) {
     new Logger("POSTGRES", e as Error, "error occurred while creating database", e);
   }
 
   try {
-    const migrator = new Migrator(DI.get<Postgres>(TYPES.Postgres));
+    await DI.get<Migrator>(TYPES.Migrator).execMigrations();
 
-    await migrator.execMigrations();
-
-    gateway.GraphQLServer.NewServer(DI.get<Router>(TYPES.RootRouter));
+    DI.get<GraphQLServer>(TYPES.GraphQLServer).listen();
 
     DI.get<HttpServer>(TYPES.HttpServer).listen();
 
-    gateway.Websocket.NewServerOnSamePort(DI.get<HttpServer>(TYPES.HttpServer).getServer()!);
+    DI.get<Websocket>(TYPES.WebsocketServer).newServerOnSamePort();
 
-    gateway.GrpcServer.NewServer();
+    DI.get<GrpcServer>(TYPES.GrpcServer).listen();
   } catch (e) {
     new Logger("SERVE", e as Error, (e as Error).message);
   }

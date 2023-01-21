@@ -7,11 +7,14 @@ import { Migrator } from "@migrations";
 import {
   AuthController,
   AuthRoutes,
+  GraphQLServer,
+  GrpcServer,
   HttpServer,
   Middlewares,
   Router,
   UserController,
-  UserRoutes
+  UserRoutes,
+  Websocket
 } from "@gateway";
 import { PgAuthRepository, PgUserRepository } from "@repository";
 import {
@@ -48,6 +51,10 @@ DI.bind<IUserController>(TYPES.UserController).to(UserController).inSingletonSco
 DI.bind<IAuthController>(TYPES.AuthController).to(AuthController).inSingletonScope();
 
 DI.bind<HttpServer>(TYPES.HttpServer).to(HttpServer).inSingletonScope();
+DI.bind<Websocket>(TYPES.WebsocketServer).to(Websocket).inSingletonScope();
+
 DI.bind<Middlewares>(TYPES.Middlewares).to(Middlewares).inSingletonScope();
+DI.bind<GrpcServer>(TYPES.GrpcServer).to(GrpcServer).inSingletonScope();
+DI.bind<GraphQLServer>(TYPES.GraphQLServer).to(GraphQLServer).inSingletonScope();
 
 export { DI };

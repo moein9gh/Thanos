@@ -1,5 +1,5 @@
 import { UserInteractor } from "@interactor";
-import { HttpServer, Middlewares } from "@gateway";
+import { GraphQLServer, HttpServer, Middlewares } from "@gateway";
 
 export const TYPES = {
   APP_CONFIG: Symbol.for("APP_CONFIG"),
@@ -18,5 +18,8 @@ export const TYPES = {
   UserController: Symbol.for("UserController"),
   AuthController: Symbol.for("AuthController"),
   Middlewares: Symbol.for("Middlewares"),
-  HttpServer: Symbol.for("HttpServer")
+  HttpServer: Symbol.for("HttpServer"),
+  GrpcServer: Symbol.for("GrpcServer"),
+  GraphQLServer: Symbol.for("GraphQLServer"),
+  WebsocketServer: Symbol.for("WebsocketServer")
 };
