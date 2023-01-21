@@ -1,6 +1,8 @@
 // tracing.js
 "use strict";
 import { Logger } from "@log";
+import { DI } from "@DI";
+import { TYPES } from "@types";
 
 const opentelemetry = require("@opentelemetry/sdk-node");
 const { getNodeAutoInstrumentations } = require("@opentelemetry/auto-instrumentations-node");
@@ -9,7 +11,8 @@ const { Resource } = require("@opentelemetry/resources");
 const { SemanticResourceAttributes } = require("@opentelemetry/semantic-conventions");
 process.env.OTEL_EXPORTER_OTLP_ENDPOINT = "host.docker.internal:4318";
 // process.env.OTEL_RESOURCE_ATTRIBUTES = service.name = "node_app";
-new Logger("TRACING", null, "tracing started");
+const logger = DI.get<Logger>(TYPES.Logger);
+logger.print("TRACING", null, "tracing started");
 
 const exporterOptions = {
   url: "http://host.docker.internal:4318/v1/traces"
@@ -24,17 +27,17 @@ const sdk = new opentelemetry.NodeSDK({
 });
 // initialize the SDK and register with the OpenTelemetry API
 // this enables the API to record telemetry
-
+logger.print("TRACING", null, "open telemetry failed");
 sdk
   .start()
-  .then(() => new Logger("TRACING", null, "open telemetry is running"))
-  .catch((error) => new Logger("TRACING", null, "open telemetry failed"));
+  .then(() => logger.print("TRACING", null, "open telemetry is running"))
+  .catch((error) => logger.print("TRACING", error, "open telemetry failed " + error.message));
 
 // gracefully shut down the SDK on process exit
 process.on("SIGTERM", () => {
   sdk
     .shutdown()
-    .then(() => new Logger("TRACING", null, "open telemetry removed"))
-    .catch((error) => new Logger("TRACING", error, "open telemetry error"))
+    .then(() => logger.print("TRACING", null, "open telemetry removed"))
+    .catch((error) => logger.print("TRACING", error, "open telemetry error"))
     .finally(() => process.exit(0));
 });

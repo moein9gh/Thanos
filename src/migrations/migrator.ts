@@ -11,7 +11,8 @@ import { inject, injectable } from "inversify";
 export class Migrator {
   constructor(
     @inject(TYPES.Postgres) private store: Postgres,
-    @inject(TYPES.APP_CONFIG) private cfg: CONFIG
+    @inject(TYPES.APP_CONFIG) private cfg: CONFIG,
+    @inject(TYPES.Logger) private logger: Logger
   ) {}
 
   async execMigrations() {
@@ -22,13 +23,13 @@ export class Migrator {
       const query = fs.readFileSync(path.resolve("src", "migrations", fn)).toString();
 
       await this.store.client.query(query);
-      new Logger("MIGRATOR", null, `${fn} migration executed`);
+      this.logger.print("MIGRATOR", null, `${fn} migration executed`);
     }
   }
 
   async dropTables() {
     await this.store.client.query("DROP SCHEMA public CASCADE;CREATE SCHEMA public;");
-    new Logger("MIGRATOR", null, "all tables dropped");
+    this.logger.print("MIGRATOR", null, "all tables dropped");
   }
 
   async createDatabase() {
@@ -48,12 +49,16 @@ export class Migrator {
 
       if (!res.rows.length) {
         await client.query(`CREATE DATABASE ${this.cfg.postgresDbName} WITH ENCODING 'UTF8';`);
-        new Logger("MIGRATOR", null, `${this.cfg.postgresDbName} database created.`);
+        this.logger.print("MIGRATOR", null, `${this.cfg.postgresDbName} database created.`);
       } else {
-        new Logger("MIGRATOR", null, `${this.cfg.postgresDbName} database already exist.`);
+        this.logger.print("MIGRATOR", null, `${this.cfg.postgresDbName} database already exist.`);
       }
     } catch (e) {
-      new Logger("MIGRATOR", e as Error, `${this.cfg.postgresDbName} database already exist.`);
+      this.logger.print(
+        "MIGRATOR",
+        e as Error,
+        `${this.cfg.postgresDbName} database already exist.`
+      );
     }
   }
 }

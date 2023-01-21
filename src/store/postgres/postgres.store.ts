@@ -1,6 +1,5 @@
 import { CONFIG } from "@config";
 import { Client } from "pg";
-import { Migrator } from "@migrations";
 import { Logger } from "@log";
 import { inject, injectable } from "inversify";
 import { TYPES } from "@types";
@@ -9,7 +8,10 @@ import { TYPES } from "@types";
 export class Postgres {
   public client: Client;
 
-  constructor(@inject(TYPES.APP_CONFIG) private cfg: CONFIG) {
+  constructor(
+    @inject(TYPES.APP_CONFIG) private cfg: CONFIG,
+    @inject(TYPES.Logger) private logger: Logger
+  ) {
     try {
       let pgClient = new Client({
         host: cfg.postgresHost,
@@ -23,12 +25,12 @@ export class Postgres {
 
       this.client = pgClient;
 
-      new Logger("STORE_POSTGRES", null, "Connected successfully to postgres database");
+      logger.print("STORE_POSTGRES", null, "Connected successfully to postgres database");
     } catch (e) {
-      new Logger("POSTGRES", e as Error, "error occurred while creating database instance", e);
+      logger.print("POSTGRES", e as Error, "error occurred while creating database instance", e);
       throw e;
     }
-  } // readonly client: Client // readonly password: string, // readonly username: string, // readonly port: number, // readonly host: string,
+  }
 
   public static async setup(cfg: CONFIG) {}
 }

@@ -18,7 +18,8 @@ export class Middlewares {
   constructor(
     @inject(TYPES.RootRouter) private router: Router,
     @inject(TYPES.APP_CONFIG) private cfg: CONFIG,
-    @inject(TYPES.DocGenerator) private docGenerator: DocGenerator
+    @inject(TYPES.DocGenerator) private docGenerator: DocGenerator,
+    @inject(TYPES.Logger) private logger: Logger
   ) {}
 
   registerMiddlewares() {
@@ -53,7 +54,7 @@ export class Middlewares {
     );
 
     expressRouter.use(express.urlencoded({ extended: true }));
-    new Logger("HTTP_SERVER", null, `static folder path : ${APP_CONFIG.staticFolder}`);
+    this.logger.print("HTTP_SERVER", null, `static folder path : ${APP_CONFIG.staticFolder}`);
 
     expressRouter.use(express.static(APP_CONFIG.staticFolder));
 
@@ -70,6 +71,6 @@ export class Middlewares {
     );
 
     expressRouter.use("/docs", swaggerUi.serve, swaggerUi.setup(this.docGenerator.doc));
-    new Logger("DOC", null, "swagger is now accessible on /docs");
+    this.logger.print("DOC", null, "swagger is now accessible on /docs");
   }
 }

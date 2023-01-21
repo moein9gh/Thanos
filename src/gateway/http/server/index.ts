@@ -15,7 +15,8 @@ export class HttpServer {
     @inject(TYPES.AuthRoutes) private authRoutes: AuthRoutes,
     @inject(TYPES.RootRouter) private rootRouter: Router,
     @inject(TYPES.Middlewares) private middlewares: Middlewares,
-    @inject(TYPES.APP_CONFIG) private cfg: CONFIG
+    @inject(TYPES.APP_CONFIG) private cfg: CONFIG,
+    @inject(TYPES.Logger) private logger: Logger
   ) {
     userRoutes.registerRoutes();
     authRoutes.registerRoutes();
@@ -35,7 +36,7 @@ export class HttpServer {
 
   listen() {
     this.server?.listen(this.cfg.httpServerPort, () => {
-      new Logger("HTTP_SERVER", null, "server is running " + this.cfg.httpServerPort);
+      this.logger.print("HTTP_SERVER", null, "server is running " + this.cfg.httpServerPort);
     });
   }
 }

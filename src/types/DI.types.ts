@@ -21,5 +21,6 @@ export const TYPES = {
   HttpServer: Symbol.for("HttpServer"),
   GrpcServer: Symbol.for("GrpcServer"),
   GraphQLServer: Symbol.for("GraphQLServer"),
-  WebsocketServer: Symbol.for("WebsocketServer")
+  WebsocketServer: Symbol.for("WebsocketServer"),
+  Logger: Symbol.for("Logger")
 };

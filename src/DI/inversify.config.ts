@@ -26,6 +26,7 @@ import {
   IUserRepository
 } from "@ports";
 import { AuthInteractor, UserInteractor } from "@interactor";
+import { Logger } from "@log";
 
 const DI = new Container();
 
@@ -56,5 +57,6 @@ DI.bind<Websocket>(TYPES.WebsocketServer).to(Websocket).inSingletonScope();
 DI.bind<Middlewares>(TYPES.Middlewares).to(Middlewares).inSingletonScope();
 DI.bind<GrpcServer>(TYPES.GrpcServer).to(GrpcServer).inSingletonScope();
 DI.bind<GraphQLServer>(TYPES.GraphQLServer).to(GraphQLServer).inSingletonScope();
+DI.bind<Logger>(TYPES.Logger).to(Logger).inSingletonScope();
 
 export { DI };

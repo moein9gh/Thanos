@@ -1,7 +1,6 @@
 import log from "npmlog";
 import { APP_CONFIG } from "@config";
-import fs from "fs";
-import path from "path";
+import { injectable } from "inversify";
 
 // const access = fs.createWriteStream(path.resolve("src", "log", "access.log"), {
 //     flags: "a"
@@ -9,9 +8,11 @@ import path from "path";
 //   error = fs.createWriteStream(path.resolve("src", "log", "access.log"), {
 //     flags: "a"
 //   });
-
+@injectable()
 export class Logger {
-  constructor(prefix: string, error: Error | null, message: string, data: {} | null = null) {
+  constructor() {}
+
+  print = (prefix: string, error: Error | null, message: string, data: {} | null = null) => {
     if (APP_CONFIG.debugMode) {
       //uncomment for saving to the file
       // log.stream = access;
@@ -35,5 +36,5 @@ export class Logger {
         );
       }
     }
-  }
+  };
 }

@@ -2,12 +2,14 @@
   "root": true,
   "parser": "@typescript-eslint/parser",
   "plugins": [
-    "prettier"
+    "prettier",
+    "unused-imports"
   ],
   "extends": [
     "prettier"
   ],
   "rules": {
+    "unused-imports/no-unused-imports": "error",
     "prettier/prettier": 2,
     "no-console": "error",
     "semi": "error",
