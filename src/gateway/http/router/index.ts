@@ -1,16 +1,21 @@
 import express from "express";
+import { injectable } from "inversify";
+import { IRouter } from "@ports";
 
-export class Router {
-  constructor(private readonly router: express.Router) {}
+@injectable()
+export class Router implements IRouter {
+  public router: express.Router;
 
-  static NewRouter(): Router {
-    const router = express.Router();
+  constructor() {
+    this.router = express.Router();
 
-    router.use(express.json());
-    router.use(express.urlencoded({ extended: true }));
-
-    return new Router(router);
+    this.router.use(express.json());
+    this.router.use(express.urlencoded({ extended: true }));
   }
+
+  // static NewRouter(): Router {
+  //     return new Router(router);
+  // }
 
   getRouter = (): express.Router => this.router;
 }

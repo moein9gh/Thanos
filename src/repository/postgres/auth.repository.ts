@@ -1,9 +1,15 @@
 import * as store from "@store";
 import { CONFIG } from "@config";
 import { IAuthRepository } from "@ports";
+import { inject, injectable } from "inversify";
+import { TYPES } from "@types";
 
+@injectable()
 export class PgAuthRepository implements IAuthRepository {
-  constructor(readonly store: store.Postgres, readonly cfg: CONFIG) {}
+  constructor(
+    @inject(TYPES.Postgres) private store: store.Postgres,
+    @inject(TYPES.APP_CONFIG) private cfg: CONFIG
+  ) {}
 
   static Setup(db: store.Postgres, cfg: CONFIG): PgAuthRepository {
     return new PgAuthRepository(db, cfg);

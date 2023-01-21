@@ -1,12 +1,17 @@
 import { NextFunction, Request, Response } from "express";
 import { CONFIG } from "@config";
 import { getMobiles, messageToClient, num2en } from "@utils";
-import { IAuthController, IAuthInteractor } from "@ports";
+import { IAuthController, IAuthInteractor, IUserInteractor } from "@ports";
 import { SmsVerificationDto } from "@dto";
-import { HTTP_STATUS_CODE, HTTP_STATUS_MESSAGE } from "@types";
+import { HTTP_STATUS_CODE, HTTP_STATUS_MESSAGE, TYPES } from "@types";
+import { inject, injectable } from "inversify";
 
+@injectable()
 export class AuthController implements IAuthController {
-  constructor(readonly authInteractor: IAuthInteractor, readonly cfg: CONFIG) {}
+  constructor(
+    @inject(TYPES.AuthInteractor) private authInteractor: IAuthInteractor,
+    @inject(TYPES.APP_CONFIG) private cfg: CONFIG
+  ) {}
 
   static Setup(authInteractor: IAuthInteractor, cfg: CONFIG): AuthController {
     return new AuthController(authInteractor, cfg);

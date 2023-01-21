@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { SmsVerificationDto } from "@dto";
+import { Router } from "@gateway";
 
 export interface IUserController {
   create(req: Request, res: Response);

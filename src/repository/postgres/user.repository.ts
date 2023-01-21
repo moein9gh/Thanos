@@ -3,11 +3,16 @@ import { IUserRepository } from "@ports";
 import { CONFIG } from "@config";
 import { UserEntity } from "@entity";
 import { User } from "@model";
-import { REPOSITORY_RESULT } from "@types";
+import { REPOSITORY_RESULT, TYPES } from "@types";
 import { updateQueryBuilder } from "@utils";
+import { inject, injectable } from "inversify";
 
+@injectable()
 export class PgUserRepository implements IUserRepository {
-  constructor(readonly store: store.Postgres, readonly cfg: CONFIG) {}
+  constructor(
+    @inject(TYPES.Postgres) private store: store.Postgres,
+    @inject(TYPES.APP_CONFIG) private cfg: CONFIG
+  ) {}
 
   static Setup(db: store.Postgres, cfg: CONFIG): PgUserRepository {
     return new PgUserRepository(db, cfg);

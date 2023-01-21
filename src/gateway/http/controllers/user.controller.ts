@@ -1,9 +1,16 @@
-import { IUserController, IUserInteractor } from "@ports";
+import { IAuthRepository, IUserController, IUserInteractor, IUserRepository } from "@ports";
 import { NextFunction, Request, Response } from "express";
 import { CONFIG } from "@config";
+import { inject, injectable } from "inversify";
+import { TYPES } from "@types";
 
+@injectable()
 export class UserController implements IUserController {
-  constructor(readonly userInteractor: IUserInteractor, readonly cfg: CONFIG) {}
+  // constructor(readonly userInteractor: IUserInteractor, readonly cfg: CONFIG) {}
+  constructor(
+    @inject(TYPES.UserInteractor) private userInteractor: IUserInteractor,
+    @inject(TYPES.APP_CONFIG) private cfg: CONFIG
+  ) {}
 
   static Setup(userInteractor: IUserInteractor, cfg: CONFIG): UserController {
     return new UserController(userInteractor, cfg);

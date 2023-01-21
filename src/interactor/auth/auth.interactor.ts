@@ -1,14 +1,15 @@
-import { IUserRepository } from "@ports";
+import { IAuthInteractor, IAuthRepository, IUserRepository } from "@ports";
 import { CONFIG } from "@config";
-import { IAuthInteractor } from "@ports";
-import { IAuthRepository } from "@ports";
 import { getRandomIntInclusive, sendSMS } from "@utils";
+import { inject, injectable } from "inversify";
+import { TYPES } from "@types";
 
+@injectable()
 export class AuthInteractor implements IAuthInteractor {
   constructor(
-    readonly pgUserRepo: IUserRepository,
-    readonly pgAuthRepo: IAuthRepository,
-    readonly cfg: CONFIG
+    @inject(TYPES.UserRepository) private pgUserRepo: IUserRepository,
+    @inject(TYPES.AuthRepository) private pgAuthRepo: IAuthRepository,
+    @inject(TYPES.APP_CONFIG) private cfg: CONFIG
   ) {}
 
   static Setup(

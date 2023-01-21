@@ -1,12 +1,14 @@
-import * as store from "@store";
 import fs from "fs";
 import path from "path";
 import { Logger } from "@log";
 import { Client } from "pg";
 import { CONFIG } from "@config";
+import { Postgres } from "@store";
+import { TYPES } from "@types";
+import { inject } from "inversify";
 
 export class Migrator {
-  constructor(readonly store: store.Postgres) {}
+  constructor(@inject(TYPES.Postgres) private store: Postgres) {}
 
   async execMigrations() {
     const fileNames = fs

@@ -1,7 +1,6 @@
 {
     "compilerOptions": {
         /* Visit https://aka.ms/tsconfig to read more about this file */
-
         /* Projects */
         // "incremental": true,                              /* Save .tsbuildinfo files to allow for incremental compilation of projects. */
         // "composite": true,                                /* Enable constraints that allow protos TypeScript project to be used with project references. */
@@ -14,8 +13,8 @@
         "target": "es2021",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
         // "lib": [],                                        /* Specify protos set of bundled library declaration files that describe the target runtime environment. */
         // "jsx": "preserve",                                /* Specify what JSX code is generated. */
-        // "experimentalDecorators": true,                   /* Enable experimental support for TC39 stage 2 draft decorators. */
-        // "emitDecoratorMetadata": true,                    /* Emit design-type metadata for decorated declarations in source files. */
+         "experimentalDecorators": true,                   /* Enable experimental support for TC39 stage 2 draft decorators. */
+         "emitDecoratorMetadata": true,                    /* Emit design-type metadata for decorated declarations in source files. */
         // "jsxFactory": "",                                 /* Specify the JSX factory function used when targeting React JSX emit, e.g. 'React.createElement' or 'h'. */
         // "jsxFragmentFactory": "",                         /* Specify the JSX Fragment reference used for fragments when targeting React JSX emit e.g. 'React.Fragment' or 'Fragment'. */
         // "jsxImportSource": "",                            /* Specify module specifier used to import the JSX factory functions when using 'jsx: react-jsx*'. */
@@ -36,6 +35,7 @@
                     "@model":["model/index"],
                     "@entity":["entity/index"],
                     "@gateway":["gateway/index"],
+                    "@DI":["DI/index"],
                     "@migrations":["migrations/index"],
                     "@utils":["utils/index"],
                     "@interactor":["interactor/index"],
@@ -49,7 +49,8 @@
         },                                                   /* Specify protos set of entries that re-map imports to additional lookup locations. */
         "rootDirs": ["src","test"],                                      /* Allow multiple folders to be treated as one when resolving modules. */
         "typeRoots": [
-          "types"
+          "types",
+          "reflect-metadata"
         ],                                  /* Specify multiple folders that act like './node_modules/@types'. */
         "types": ["jest", "node","@types/jest"],                                      /* Specify type package names to be included without being referenced in protos source file. */
         // "allowUmdGlobalAccess": true,                     /* Allow accessing UMD globals from modules. */
@@ -100,7 +101,7 @@
         // "strictNullChecks": true,                         /* When type checking, take into account 'null' and 'undefined'. */
         // "strictFunctionTypes": true,                      /* When assigning functions, check to ensure parameters and the return values are subtype-compatible. */
         // "strictBindCallApply": true,                      /* Check that the arguments for 'bind', 'call', and 'apply' methods match the original function. */
-        // "strictPropertyInitialization": true,             /* Check for class properties that are declared but not set in the constructor. */
+         "strictPropertyInitialization": false,             /* Check for class properties that are declared but not set in the constructor. */
         "noImplicitThis": false,                           /* Enable error reporting when 'this' is given the type 'any'. */
         // "useUnknownInCatchVariables": true,               /* Default catch clause variables as 'unknown' instead of 'any'. */
         // "alwaysStrict": true,                             /* Ensure 'use strict' is always emitted. */

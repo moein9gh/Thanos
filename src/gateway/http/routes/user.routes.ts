@@ -1,16 +1,24 @@
-import { IUserController } from "@ports";
+import { IAuthController, IUserController } from "@ports";
 import { Router } from "@gateway";
 import { CONFIG } from "@config";
+import { inject, injectable } from "inversify";
+import { TYPES } from "@types";
 
+@injectable()
 export class UserRoutes {
-  static RegisterRoutes(userController: IUserController, router: Router, cfg: CONFIG): Router {
-    const expressRouter = router.getRouter();
+  constructor(
+    @inject(TYPES.UserController) private userController: IUserController,
+    @inject(TYPES.UserRouter) public router: Router,
+    @inject(TYPES.APP_CONFIG) private cfg: CONFIG
+  ) {}
+  registerRoutes(): Router {
+    const expressRouter = this.router.getRouter();
 
     expressRouter
       .route("/")
-      .get<any, string>(userController.getUsers)
-      .post<any, string>(userController.createUser);
+      .get<any, string>(this.userController.getUsers)
+      .post<any, string>(this.userController.createUser);
 
-    return router;
+    return this.router;
   }
 }

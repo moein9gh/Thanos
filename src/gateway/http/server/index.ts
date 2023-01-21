@@ -1,29 +1,41 @@
 import express from "express";
 import http from "http";
-import { Router } from "@gateway";
+import { AuthRoutes, Middlewares, Router, UserRoutes } from "@gateway";
+import { CONFIG } from "@config";
+import { Logger } from "@log";
+import { inject, injectable } from "inversify";
+import { TYPES } from "@types";
 
+@injectable()
 export class HttpServer {
-  static server: http.Server | null = null;
+  server: http.Server | null = null;
 
   constructor(
-    readonly userRoutes: Router,
-    readonly authRoutes: Router,
-    readonly rootRouter: Router
+    @inject(TYPES.UserRoutes) private userRoutes: UserRoutes,
+    @inject(TYPES.AuthRoutes) private authRoutes: AuthRoutes,
+    @inject(TYPES.RootRouter) private rootRouter: Router,
+    @inject(TYPES.Middlewares) private middlewares: Middlewares,
+    @inject(TYPES.APP_CONFIG) private cfg: CONFIG
   ) {
-    HttpServer.server = http.createServer(
+    userRoutes.registerRoutes();
+    authRoutes.registerRoutes();
+    middlewares.registerMiddlewares();
+
+    this.server = http.createServer(
       express()
         .use("/", this.rootRouter.getRouter())
-        .use("/api/auth", this.authRoutes.getRouter())
-        .use("/api/users", this.userRoutes.getRouter())
+        .use("/api/auth", this.authRoutes.router.getRouter())
+        .use("/api/users", this.userRoutes.router.getRouter)
     );
   }
 
-  static NewServer(userRoutes: Router, authRoutes: Router, rootRouter): http.Server | null {
-    new HttpServer(userRoutes, authRoutes, rootRouter);
-    return HttpServer.server;
+  getServer(): http.Server | null {
+    return this.server;
   }
 
-  static GetServer(): http.Server | null {
-    return HttpServer.server;
+  listen() {
+    this.server?.listen(this.cfg.httpServerPort, () => {
+      new Logger("HTTP_SERVER", null, "server is running " + this.cfg.httpServerPort);
+    });
   }
 }

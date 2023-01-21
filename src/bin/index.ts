@@ -1,5 +1,6 @@
 import "./pathResolver";
 // import "./tracer";
+import "reflect-metadata";
 import cluster from "cluster";
 import { bootstrap } from "./serve";
 import os from "os";

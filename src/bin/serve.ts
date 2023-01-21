@@ -3,13 +3,14 @@
 */
 
 import * as dotenv from "dotenv";
-import * as store from "@store";
+import { Postgres } from "@store";
 import * as gateway from "@gateway";
-import * as repository from "@repository";
-import { AuthInteractor, UserInteractor } from "@interactor";
-import { APP_CONFIG } from "@config";
+import { HttpServer, Router } from "@gateway";
+import { CONFIG } from "@config";
 import { Logger } from "@log";
-import { DocGenerator } from "@doc";
+import { DI } from "@DI";
+import { TYPES } from "@types";
+import { Migrator } from "@migrations";
 
 dotenv.config({
   path: process.cwd() + "/src/env/.env"
@@ -17,47 +18,24 @@ dotenv.config({
 
 export async function bootstrap() {
   try {
-    const docGenerator = new DocGenerator(APP_CONFIG);
+    await Migrator.createDatabase(DI.get<CONFIG>(TYPES.APP_CONFIG));
+  } catch (e) {
+    new Logger("POSTGRES", e as Error, "error occurred while creating database", e);
+  }
 
-    const postgres = await store.Postgres.setup(APP_CONFIG);
+  try {
+    const migrator = new Migrator(DI.get<Postgres>(TYPES.Postgres));
 
-    let userRouter = gateway.Router.NewRouter()!;
+    await migrator.execMigrations();
 
-    let rootRouter = gateway.Router.NewRouter()!;
+    gateway.GraphQLServer.NewServer(DI.get<Router>(TYPES.RootRouter));
 
-    gateway.Middlewares.Register(rootRouter, APP_CONFIG, docGenerator);
+    DI.get<HttpServer>(TYPES.HttpServer).listen();
 
-    gateway.GraphQLServer.NewServer(rootRouter);
-
-    const pgUserRepository = repository.PgUserRepository.Setup(postgres, APP_CONFIG);
-
-    const pgAuthRepository = repository.PgAuthRepository.Setup(postgres, APP_CONFIG);
-
-    const userInteractor = UserInteractor.Setup(pgUserRepository, pgAuthRepository, APP_CONFIG);
-
-    const authInteractor = AuthInteractor.Setup(pgUserRepository, pgAuthRepository, APP_CONFIG);
-
-    const userHandlers = gateway.UserController.Setup(userInteractor, APP_CONFIG);
-
-    const authHandlers = gateway.AuthController.Setup(authInteractor, APP_CONFIG);
-
-    const authRoutes = gateway.AuthRoutes.RegisterRoutes(
-      authHandlers,
-      gateway.Router.NewRouter(),
-      APP_CONFIG
-    );
-
-    const userRoutes = gateway.UserRoutes.RegisterRoutes(userHandlers, userRouter, APP_CONFIG);
-
-    gateway.HttpServer.NewServer(userRoutes, authRoutes, rootRouter)?.listen(
-      APP_CONFIG.httpServerPort,
-      () => {
-        new Logger("HTTP_SERVER", null, "server is running " + APP_CONFIG.httpServerPort);
-      }
-    );
-
-    gateway.Websocket.NewServerOnSamePort(gateway.HttpServer.GetServer()!);
+    gateway.Websocket.NewServerOnSamePort(DI.get<HttpServer>(TYPES.HttpServer).getServer()!);
 
     gateway.GrpcServer.NewServer();
-  } catch (e) {}
+  } catch (e) {
+    new Logger("SERVE", e as Error, (e as Error).message);
+  }
 }

@@ -8,12 +8,23 @@ import { Router } from "@gateway";
 import { Logger } from "@log";
 import swaggerUi from "swagger-ui-express";
 import { DocGenerator } from "@doc";
+import { inject, injectable } from "inversify";
+import { TYPES } from "@types";
+
 const promMid = require("express-prometheus-middleware");
 
+@injectable()
 export class Middlewares {
-  static Register(router: Router, cfg: CONFIG, docGenerator: DocGenerator): Router {
-    const expressRouter = router.getRouter();
+  constructor(
+    @inject(TYPES.RootRouter) private router: Router,
+    @inject(TYPES.APP_CONFIG) private cfg: CONFIG,
+    @inject(TYPES.DocGenerator) private docGenerator: DocGenerator
+  ) {}
+
+  registerMiddlewares() {
+    const expressRouter = this.router.getRouter();
     expressRouter.use(express.json());
+
     expressRouter.use(
       promMid({
         metricsPath: "/metrics",
@@ -23,6 +34,7 @@ export class Middlewares {
         responseLengthBuckets: [512, 1024, 5120, 10240, 51200, 102400]
       })
     );
+
     expressRouter.use(
       expressWinston.logger({
         transports: [new winston.transports.Console()],
@@ -57,8 +69,7 @@ export class Middlewares {
       })
     );
 
-    expressRouter.use("/docs", swaggerUi.serve, swaggerUi.setup(docGenerator.doc));
-
-    return router;
+    expressRouter.use("/docs", swaggerUi.serve, swaggerUi.setup(this.docGenerator.doc));
+    new Logger("DOC", null, "swagger is now accessible on /docs");
   }
 }

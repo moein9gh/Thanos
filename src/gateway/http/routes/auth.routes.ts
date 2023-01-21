@@ -1,14 +1,23 @@
-import { IAuthController } from "@ports";
+import { IAuthController, IRoutes } from "@ports";
 import { Router } from "@gateway";
 import { CONFIG } from "@config";
+import { inject, injectable } from "inversify";
+import { TYPES } from "@types";
 
-export class AuthRoutes {
-  static RegisterRoutes(authController: IAuthController, router: Router, cfg: CONFIG): Router {
-    const expressRouter = router.getRouter();
+@injectable()
+export class AuthRoutes implements IRoutes {
+  constructor(
+    @inject(TYPES.AuthController) private authController: IAuthController,
+    @inject(TYPES.AuthRouter) public router: Router,
+    @inject(TYPES.AuthRepository) private cfg: CONFIG
+  ) {}
 
-    expressRouter.get<string, any, string>("/", authController.verifyToken);
-    expressRouter.get("/sms-verification", authController.smsVerification);
+  registerRoutes(): Router {
+    const expressRouter = this.router.getRouter();
 
-    return router;
+    expressRouter.get<string, any, string>("/", this.authController.verifyToken);
+    expressRouter.get("/sms-verification", this.authController.smsVerification);
+
+    return this.router;
   }
 }
