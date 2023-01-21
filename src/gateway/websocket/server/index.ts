@@ -4,6 +4,7 @@ import { APP_CONFIG } from "@config";
 import { HttpServer, onMessage } from "@gateway";
 import { Logger } from "@log";
 import { inject, injectable } from "inversify";
+import { PREFIXES } from "@log";
 
 @injectable()
 export class Websocket {
@@ -17,17 +18,17 @@ export class Websocket {
 
     ws.on("listening", () => {
       this.logger.print(
-        "WEBSOCKET_SERVER",
+        PREFIXES.WEBSOCKET_SERVER,
         null,
         "websocket server is listening on " + APP_CONFIG.websocketServerPort
       );
     });
 
     ws.on(WEBSOCKET_EVENTS.CONNECTION, (ws) => {
-      this.logger.print("WEBSOCKET_SERVER", null, "websocket new connection");
+      this.logger.print(PREFIXES.WEBSOCKET_SERVER, null, "websocket new connection");
 
       ws.on(WEBSOCKET_EVENTS.CLOSE, () =>
-        this.logger.print("WEBSOCKET_SERVER", null, "connection closed")
+        this.logger.print(PREFIXES.WEBSOCKET_SERVER, null, "connection closed")
       );
       ws.onmessage = onMessage;
     });
@@ -38,7 +39,7 @@ export class Websocket {
       const wsServer = new Server({ noServer: true });
 
       this.logger.print(
-        "WEBSOCKET_SERVER",
+        PREFIXES.WEBSOCKET_SERVER,
         null,
         "websocket server is listening on " + APP_CONFIG.websocketServerPort
       );
@@ -49,20 +50,24 @@ export class Websocket {
             wsServer.emit("connection", websocket, req);
           });
         } catch (err: any) {
-          this.logger.print("WEBSOCKET_SERVER", err, "websocket server error " + err.message);
+          this.logger.print(
+            PREFIXES.WEBSOCKET_SERVER,
+            err,
+            "websocket server error " + err.message
+          );
         }
       });
 
       wsServer.on(WEBSOCKET_EVENTS.CONNECTION, (ws) => {
-        this.logger.print("WEBSOCKET_SERVER", null, "websocket new connection");
+        this.logger.print(PREFIXES.WEBSOCKET_SERVER, null, "websocket new connection");
 
         ws.on(WEBSOCKET_EVENTS.CLOSE, () =>
-          this.logger.print("WEBSOCKET_SERVER", null, "websocket connection closed")
+          this.logger.print(PREFIXES.WEBSOCKET_SERVER, null, "websocket connection closed")
         );
         ws.onmessage = onMessage;
       });
     } catch (e: any) {
-      this.logger.print("WEBSOCKET_SERVER", e, "websocket server error " + e.message);
+      this.logger.print(PREFIXES.WEBSOCKET_SERVER, e, "websocket server error " + e.message);
     }
   }
 }

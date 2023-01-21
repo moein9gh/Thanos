@@ -3,6 +3,7 @@ import { Logger } from "@log";
 import { inject, injectable } from "inversify";
 import { Server } from "@grpc/grpc-js";
 import { TYPES } from "@types";
+import { PREFIXES } from "@log";
 
 const grpc = require("@grpc/grpc-js");
 const PROTO_PATH = process.cwd() + "/src/protos/news.proto";
@@ -33,7 +34,7 @@ export class GrpcServer {
 
     server.addService(newsProto.NewsService.service, {
       getAllNews: (_, callback) => {
-        logger.print("GRPC_SERVER", null, "received");
+        logger.print(PREFIXES.GRPC_SERVER, null, "received");
         callback(null, news);
       }
     });
@@ -46,13 +47,13 @@ export class GrpcServer {
       (error) => {
         if (!error) {
           this.logger.print(
-            "GRPC_SERVER",
+            PREFIXES.GRPC_SERVER,
             null,
             "grpc server running on " + APP_CONFIG.grpcServerPort
           );
           this.server.start();
         } else {
-          this.logger.print("GRPC_SERVER", error, "grpc server error");
+          this.logger.print(PREFIXES.GRPC_SERVER, error, "grpc server error");
         }
       }
     );

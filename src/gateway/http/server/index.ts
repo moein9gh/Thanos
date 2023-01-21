@@ -5,6 +5,7 @@ import { CONFIG } from "@config";
 import { Logger } from "@log";
 import { inject, injectable } from "inversify";
 import { TYPES } from "@types";
+import { PREFIXES } from "@log";
 
 @injectable()
 export class HttpServer {
@@ -36,7 +37,7 @@ export class HttpServer {
 
   listen() {
     this.server?.listen(this.cfg.httpServerPort, () => {
-      this.logger.print("HTTP_SERVER", null, "server is running " + this.cfg.httpServerPort);
+      this.logger.print(PREFIXES.HTTP_SERVER, null, "server is running " + this.cfg.httpServerPort);
     });
   }
 }

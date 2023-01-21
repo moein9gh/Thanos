@@ -8,6 +8,7 @@ import { Logger } from "@log";
 import { DI } from "@DI";
 import { TYPES } from "@types";
 import { Migrator } from "@migrations";
+import { PREFIXES } from "@log";
 
 dotenv.config({
   path: process.cwd() + "/src/env/.env"
@@ -17,7 +18,7 @@ export async function bootstrap() {
   try {
     await DI.get<Migrator>(TYPES.Migrator).createDatabase();
   } catch (e) {
-    logger.print("POSTGRES", e as Error, "error occurred while creating database", e);
+    logger.print(PREFIXES.SERVE, e as Error, "error occurred while creating database", e);
   }
 
   try {
@@ -31,6 +32,6 @@ export async function bootstrap() {
 
     DI.get<GrpcServer>(TYPES.GrpcServer).listen();
   } catch (e) {
-    logger.print("SERVE", e as Error, (e as Error).message);
+    logger.print(PREFIXES.SERVE, e as Error, (e as Error).message);
   }
 }

@@ -10,6 +10,7 @@ import swaggerUi from "swagger-ui-express";
 import { DocGenerator } from "@doc";
 import { inject, injectable } from "inversify";
 import { TYPES } from "@types";
+import { PREFIXES } from "@log";
 
 const promMid = require("express-prometheus-middleware");
 
@@ -54,7 +55,11 @@ export class Middlewares {
     );
 
     expressRouter.use(express.urlencoded({ extended: true }));
-    this.logger.print("HTTP_SERVER", null, `static folder path : ${APP_CONFIG.staticFolder}`);
+    this.logger.print(
+      PREFIXES.HTTP_SERVER,
+      null,
+      `static folder path : ${APP_CONFIG.staticFolder}`
+    );
 
     expressRouter.use(express.static(APP_CONFIG.staticFolder));
 
@@ -71,6 +76,6 @@ export class Middlewares {
     );
 
     expressRouter.use("/docs", swaggerUi.serve, swaggerUi.setup(this.docGenerator.doc));
-    this.logger.print("DOC", null, "swagger is now accessible on /docs");
+    this.logger.print(PREFIXES.DOC, null, "swagger is now accessible on /docs");
   }
 }

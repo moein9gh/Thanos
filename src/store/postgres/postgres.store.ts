@@ -3,6 +3,7 @@ import { Client } from "pg";
 import { Logger } from "@log";
 import { inject, injectable } from "inversify";
 import { TYPES } from "@types";
+import { PREFIXES } from "@log";
 
 @injectable()
 export class Postgres {
@@ -25,9 +26,14 @@ export class Postgres {
 
       this.client = pgClient;
 
-      logger.print("STORE_POSTGRES", null, "Connected successfully to postgres database");
+      logger.print(PREFIXES.POSTGRES, null, "Connected successfully to postgres database");
     } catch (e) {
-      logger.print("POSTGRES", e as Error, "error occurred while creating database instance", e);
+      logger.print(
+        PREFIXES.POSTGRES,
+        e as Error,
+        "error occurred while creating database instance",
+        e
+      );
       throw e;
     }
   }
