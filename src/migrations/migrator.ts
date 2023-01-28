@@ -1,35 +1,33 @@
 import fs from "fs";
 import path from "path";
-import { Logger } from "@log";
+import { Logger, PREFIXES } from "@log";
 import { Client } from "pg";
 import { CONFIG } from "@config";
 import { Postgres } from "@store";
 import { TYPES } from "@types";
 import { inject, injectable } from "inversify";
-import { PREFIXES } from "@log";
 
 @injectable()
 export class Migrator {
   constructor(
-    @inject(TYPES.Postgres) private store: Postgres,
     @inject(TYPES.APP_CONFIG) private cfg: CONFIG,
     @inject(TYPES.Logger) private logger: Logger
   ) {}
 
-  async execMigrations() {
+  async execMigrations(store: Postgres) {
     const fileNames = fs
       .readdirSync(path.resolve("src", "migrations"))
       .filter((fn) => fn.endsWith(".sql"));
     for (const fn of fileNames) {
       const query = fs.readFileSync(path.resolve("src", "migrations", fn)).toString();
 
-      await this.store.client.query(query);
+      await store.client.query(query);
       this.logger.print(PREFIXES.MIGRATOR, null, `${fn} migration executed`);
     }
   }
 
-  async dropTables() {
-    await this.store.client.query("DROP SCHEMA public CASCADE;CREATE SCHEMA public;");
+  async dropTables(store: Postgres) {
+    await store.client.query("DROP SCHEMA public CASCADE;CREATE SCHEMA public;");
     this.logger.print(PREFIXES.MIGRATOR, null, "all tables dropped");
   }
 
