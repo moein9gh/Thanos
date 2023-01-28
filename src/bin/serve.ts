@@ -18,11 +18,9 @@ const logger = DI.get<Logger>(TYPES.Logger);
 export async function bootstrap() {
   try {
     await DI.get<Migrator>(TYPES.Migrator).createDatabase();
-    console.log("sedfxdxf");
   } catch (e) {
     logger.print(PREFIXES.SERVE, e as Error, "error occurred while creating database", e);
   }
-  console.log("sedfxdxf");
 
   try {
     await DI.get<Migrator>(TYPES.Migrator).execMigrations(DI.get<Postgres>(TYPES.Postgres));
