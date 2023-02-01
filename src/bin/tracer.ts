@@ -26,8 +26,7 @@ const sdk = new opentelemetry.NodeSDK({
     [SemanticResourceAttributes.SERVICE_NAME]: "node_app"
   })
 });
-// initialize the SDK and register with the OpenTelemetry API
-// this enables the API to record telemetry
+
 logger.print(PREFIXES.TRACING, null, "open telemetry failed");
 sdk
   .start()
@@ -36,7 +35,6 @@ sdk
     logger.print(PREFIXES.TRACING, error, "open telemetry failed " + error.message)
   );
 
-// gracefully shut down the SDK on process exit
 process.on("SIGTERM", () => {
   sdk
     .shutdown()

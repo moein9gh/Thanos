@@ -13,9 +13,5 @@ export class Router implements IRouter {
     this.router.use(express.urlencoded({ extended: true }));
   }
 
-  // static NewRouter(): Router {
-  //     return new Router(router);
-  // }
-
   getRouter = (): express.Router => this.router;
 }

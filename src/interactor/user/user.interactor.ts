@@ -6,12 +6,6 @@ import { TYPES } from "@types";
 
 @injectable()
 export class UserInteractor implements IUserInteractor {
-  // constructor(
-  //   readonly pgUserRepo: IUserRepository,
-  //   readonly pgAuthRepo: IAuthRepository,
-  //   readonly cfg: CONFIG
-  // ) {}
-
   constructor(
     @inject(TYPES.UserRepository) private pgUserRepo: IUserRepository,
     @inject(TYPES.AuthRepository) private pgAuthRepo: IAuthRepository,

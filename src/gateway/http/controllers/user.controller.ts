@@ -6,7 +6,6 @@ import { TYPES } from "@types";
 
 @injectable()
 export class UserController implements IUserController {
-  // constructor(readonly userInteractor: IUserInteractor, readonly cfg: CONFIG) {}
   constructor(
     @inject(TYPES.UserInteractor) private userInteractor: IUserInteractor,
     @inject(TYPES.APP_CONFIG) private cfg: CONFIG
