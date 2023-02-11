@@ -5,14 +5,14 @@ import { APP_CONFIG, CONFIG } from "@config";
 import expressWinston from "express-winston";
 import winston from "winston";
 import { Router } from "@gateway";
-import { Logger } from "@log";
+import { Logger, PREFIXES } from "@log";
 import swaggerUi from "swagger-ui-express";
 import { DocGenerator } from "@doc";
 import { inject, injectable } from "inversify";
 import { HTTP_STATUS_MESSAGE, TYPES } from "@types";
-import { PREFIXES } from "@log";
 import rateLimit from "express-rate-limit";
 import { messageToClient } from "@utils";
+
 const promMid = require("express-prometheus-middleware");
 
 @injectable()
