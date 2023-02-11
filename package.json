@@ -11,7 +11,9 @@
     "build": "rimraf ./dist && tsc -p tsconfig-build.json",
     "dev": "nodemon ./dist/bin/index.js",
     "start": "node dist/bin/index.js",
-    "start:dev": "tsc-watch -outDir ./dist --onSuccess \"nodemon ./dist/bin/index.js\" --onFailure \"echo failed to compile ts project\"",
+    "start:debug": "tsc-watch -outDir ./dist --onSuccess \"ts-node ./src/bin/index.ts\" --onFailure \"echo failed to compile ts project\"",
+    "start:dev": "tsc-watch -outDir ./dist --onSuccess \"tsnd --inspect=0.0.0.0:9229 ./src/bin/index.ts\" --onFailure \"echo failed to compile ts project\"",
+    "start:prod": "tsc-watch -outDir ./dist --onSuccess \"nodemon ./dist/bin/index.js\" --onFailure \"echo failed to compile ts project\"",
     "docker:up": "docker-compose -f ./src/docker/dev-docker-compose.yml --env-file ./src/env/.env up --build",
     "docker:down": "docker-compose -f ./src/docker/dev-docker-compose.yml --env-file ./src/env/.env down",
     "lint": "eslint 'src/**/*.ts'",
@@ -125,6 +127,7 @@
     "reflect-metadata": "^0.1.13",
     "swagger-jsdoc": "^6.2.7",
     "swagger-ui-express": "^4.6.0",
+    "ts-node-dev": "^2.0.0",
     "winston": "^3.8.2",
     "ws": "^8.11.0"
   }
