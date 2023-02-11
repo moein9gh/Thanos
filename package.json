@@ -113,6 +113,7 @@
     "express": "^4.18.2",
     "express-graphql": "^0.12.0",
     "express-prometheus-middleware": "^1.2.0",
+    "express-rate-limit": "^6.7.0",
     "express-winston": "^4.2.0",
     "graphql": "^15.8.0",
     "helmet": "^6.0.1",

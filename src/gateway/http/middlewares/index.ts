@@ -9,9 +9,10 @@ import { Logger } from "@log";
 import swaggerUi from "swagger-ui-express";
 import { DocGenerator } from "@doc";
 import { inject, injectable } from "inversify";
-import { TYPES } from "@types";
+import { HTTP_STATUS_MESSAGE, TYPES } from "@types";
 import { PREFIXES } from "@log";
-
+import rateLimit from "express-rate-limit";
+import { messageToClient } from "@utils";
 const promMid = require("express-prometheus-middleware");
 
 @injectable()
@@ -25,7 +26,41 @@ export class Middlewares {
 
   registerMiddlewares() {
     const expressRouter = this.router.getRouter();
+
+    const limiter = rateLimit({
+      windowMs: this.cfg.rateLimitTime * 60 * 1000,
+      max: this.cfg.maxRateLimit,
+      standardHeaders: true,
+      legacyHeaders: false,
+      message: messageToClient(
+        false,
+        "Too many requests please try later",
+        HTTP_STATUS_MESSAGE.TOO_MANY_REQUESTS,
+        {
+          message: "Too many requests please try later"
+        }
+      )
+    });
+
+    expressRouter.use(limiter);
     expressRouter.use(express.json());
+
+    const winstonLogger = expressWinston.logger({
+      transports: [new winston.transports.Console()],
+      format: winston.format.combine(winston.format.colorize(), winston.format.json()),
+      level: "info",
+      meta: false,
+      msg: APP_CONFIG.logFormat,
+      expressFormat: true,
+      colorize: true,
+      ignoreRoute: function () {
+        return false;
+      }
+    });
+
+    expressRouter.use((req, res, next) => {
+      winstonLogger(req, res, next);
+    });
 
     expressRouter.use(
       promMid({
@@ -37,24 +72,8 @@ export class Middlewares {
       })
     );
 
-    expressRouter.use(
-      expressWinston.logger({
-        transports: [new winston.transports.Console()],
-        format: winston.format.combine(winston.format.colorize(), winston.format.json()),
-        level: function () {
-          return String("info");
-        },
-        meta: false,
-        msg: APP_CONFIG.logFormat,
-        expressFormat: true,
-        colorize: true,
-        ignoreRoute: function () {
-          return false;
-        }
-      })
-    );
-
     expressRouter.use(express.urlencoded({ extended: true }));
+
     this.logger.print(
       PREFIXES.HTTP_SERVER,
       null,

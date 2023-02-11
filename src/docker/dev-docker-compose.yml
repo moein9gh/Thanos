@@ -26,6 +26,8 @@ services:
       PG_DB: ${PG_DB:-mypostgresdb}
       DEBUG_MODE: ${DEBUG_MODE:-false}
       CLUSTER_MODE: ${CLUSTER_MODE:-false}
+      RATE_LIMIT_TIME_MIN: ${RATE_LIMIT_TIME_MIN:-1}
+      MAX_RATE_LIMIT: ${MAX_RATE_LIMIT:-20}
     volumes:
       - ../..:/opt/web
       - /otp/web/node_modules

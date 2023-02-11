@@ -23,6 +23,8 @@ declare global {
       PG_CONTAINER_PORT: number;
       PGADMIN_PORT: number;
       DEBUG_MODE: string;
+      RATE_LIMIT_TIME_MIN: number;
+      MAX_RATE_LIMIT: number;
     }
   }
 }

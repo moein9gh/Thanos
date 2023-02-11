@@ -20,4 +20,6 @@ export type CONFIG = {
   debugMode: boolean;
   jsDocOptions: Options;
   clusterMode: boolean;
+  rateLimitTime: number;
+  maxRateLimit: number;
 };
