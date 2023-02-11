@@ -9,6 +9,7 @@ declare global {
       MONGO_LOCAL_PORT: number;
       MONGO_CONTAINER_PORT: number;
       HTTP_SERVER_LOCAL_PORT: number;
+      DEBUG_PORT: number;
       HTTP_SERVER_CONTAINER_PORT: number;
       WEBSOCKET_SERVER_LOCAL_PORT: number;
       WEBSOCKET_SERVER_CONTAINER_PORT: number;
