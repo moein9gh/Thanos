@@ -12,6 +12,10 @@ import { inject, injectable } from "inversify";
 import { HTTP_STATUS_MESSAGE, TYPES } from "@types";
 import rateLimit from "express-rate-limit";
 import { messageToClient } from "@utils";
+import i18next from "i18next";
+import fsI18Next from "i18next-node-fs-backend";
+import i18nextMiddleware from "i18next-http-middleware";
+import path from "path";
 
 const promMid = require("express-prometheus-middleware");
 
@@ -24,7 +28,7 @@ export class Middlewares {
     @inject(TYPES.Logger) private logger: Logger
   ) {}
 
-  registerMiddlewares() {
+  async registerMiddlewares() {
     const expressRouter = this.router.getRouter();
 
     const limiter = rateLimit({
@@ -44,6 +48,19 @@ export class Middlewares {
 
     expressRouter.use(limiter);
     expressRouter.use(express.json());
+
+    await i18next
+      .use(fsI18Next)
+      .use(i18nextMiddleware.LanguageDetector)
+      .init({
+        backend: {
+          loadPath: path.resolve("src", "locales") + "/{{lng}}/{{ns}}.json"
+        },
+        fallbackLng: "en",
+        preload: ["en", "es"]
+      });
+
+    expressRouter.use(i18nextMiddleware.handle(i18next));
 
     const winstonLogger = expressWinston.logger({
       transports: [new winston.transports.Console()],

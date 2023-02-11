@@ -24,16 +24,12 @@ export class AuthController implements IAuthController {
 
     try {
       if (!phoneNumber) {
-        return res
-          .status(HTTP_STATUS_CODE.UNPROCESSABLE_ENTITY)
-          .send(
-            messageToClient(
-              false,
-              "phoneNumber is required",
-              HTTP_STATUS_MESSAGE.UNPROCESSABLE_ENTITY,
-              { phoneNumber }
-            )
-          );
+        const localedMessage = req.t("phoneNumberIsRequired");
+        return res.status(HTTP_STATUS_CODE.UNPROCESSABLE_ENTITY).send(
+          messageToClient(false, localedMessage, HTTP_STATUS_MESSAGE.UNPROCESSABLE_ENTITY, {
+            phoneNumber
+          })
+        );
       }
 
       phoneNumber = num2en(phoneNumber);
@@ -60,22 +56,21 @@ export class AuthController implements IAuthController {
     }
 
     if (!validatedNumber) {
-      return res
-        .status(HTTP_STATUS_CODE.UNPROCESSABLE_ENTITY)
-        .json(
-          messageToClient(
-            false,
-            "phoneNumber is required",
-            HTTP_STATUS_MESSAGE.UNPROCESSABLE_ENTITY,
-            { phoneNumber }
-          )
-        );
+      const localedMessage = req.t("phoneNumberIsRequired");
+
+      return res.status(HTTP_STATUS_CODE.UNPROCESSABLE_ENTITY).json(
+        messageToClient(false, localedMessage, HTTP_STATUS_MESSAGE.UNPROCESSABLE_ENTITY, {
+          phoneNumber
+        })
+      );
     }
 
     await this.authInteractor.smsVerification(validatedNumber);
 
+    const localedMessage = req.t("created");
+
     return res.status(HTTP_STATUS_CODE.CREATED).json(
-      messageToClient(true, null, HTTP_STATUS_MESSAGE.CREATED, {
+      messageToClient(true, null, localedMessage, {
         phoneNumber
       })
     );
