@@ -2,6 +2,8 @@
 
 Thanos is a highly scalable and robust base project, designed and developed using Node.js, Express, Hexagonal Architecture, and SOLID principles. It comes with pre-configured support for WebSocket, gRPC, and GraphQL to provide seamless communication and data management in modern applications.
 
+![Hexagonal Architecture](https://github.com/moein9gh/Thanos/blob/main/hexagonal-arch.png?raw=true)
+
 ## Table of Contents
 
 - [Getting Started](#getting-started)
